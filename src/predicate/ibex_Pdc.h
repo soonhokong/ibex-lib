@@ -1,5 +1,5 @@
 //============================================================================
-//                                  I B E X                                   
+//                                  I B E X
 // File        : ibex_Pdc.h
 // Author      : Gilles Chabert
 // Copyright   : Ecole des Mines de Nantes (France)
@@ -30,45 +30,45 @@ namespace ibex {
 class Pdc {
 public:
 
-	/**
-	 * \brief Build a predicate for n-dimensional boxes
-	 */
-	Pdc(int nb_var);
+        /**
+         * \brief Build a predicate for n-dimensional boxes
+         */
+        Pdc(int nb_var);
 
-	/**
-	 * \brief Build with a list of predicates
-	 */
-	Pdc(const Array<Pdc>& list);
+        /**
+         * \brief Build with a list of predicates
+         */
+        Pdc(const Array<Pdc>& list);
 
 
-	/**
-	 * \brief Apply the predicate to the given box.
-	 */
-	virtual BoolInterval test(const IntervalVector& box)=0;
+        /**
+         * \brief Apply the predicate to the given box.
+         */
+        virtual BoolInterval test(const IntervalVector& box)=0;
 
-	/**
-	 * \brief Delete *this.
-	 */
-	virtual ~Pdc();
+        /**
+         * \brief Delete *this.
+         */
+        virtual ~Pdc();
 
-	/**
-	 * \brief The number of variables this predicate works with.
-	 */
-	const int nb_var;
+        /**
+         * \brief The number of variables this predicate works with.
+         */
+        const int nb_var;
 
 
 protected:
 
-	/**
-	 * \brief Check if the size of all the predicate of the list is the same.
-	 */
-	static bool check_nb_var_pdc_list (const Array<Pdc>& l) {
-		int i=1;
-		while ((l[i].nb_var==l[0].nb_var)&&(i<l.size())) {
-			i++;
-		}
-		return (i==l.size());
-	}
+        /**
+         * \brief Check if the size of all the predicate of the list is the same.
+         */
+        static bool check_nb_var_pdc_list (const Array<Pdc>& l) {
+                int i=1;
+                while ((l[i].nb_var==l[0].nb_var)&&(i<l.size())) {
+                        i++;
+                }
+                return (i==l.size());
+        }
 
 };
 

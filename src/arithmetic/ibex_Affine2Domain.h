@@ -38,6 +38,7 @@ template<>
 inline TemplateDomain<Affine2>& TemplateDomain<Affine2>::operator&=(const TemplateDomain<Affine2>& ) {
 	/* intersection is forbidden with affine forms */
 	assert(false);
+        throw std::logic_error("should not reach here");
 }
 
 
