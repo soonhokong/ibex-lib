@@ -32,6 +32,9 @@ def options (opt):
 
 	opt.add_option ("--with-debug",  action="store_true", dest="DEBUG",
 			help = "enable debugging")
+
+	opt.add_option ("--with-c++11",  action="store_true", dest="CPP11",
+			help = "enable C++11")
 	
 	opt.add_option ("--with-ampl", action="store_true", dest="WITH_AMPL",
 			help = "do not use AMPL")
@@ -104,6 +107,8 @@ def configure (conf):
 	else:
 		flags = "-O3 -Wno-deprecated"
 		conf.define ("NDEBUG", 1)
+        if conf.options.CPP11:
+                flags += " -std=c++11"
 	for f in flags.split():
 		if conf.check_cxx (cxxflags = f, mandatory = False):
 			env.append_unique ("CXXFLAGS", f)
