@@ -63,6 +63,11 @@ public:
 	explicit IntervalVector(const Affine2MainVector<T>& x);
 
 	/**
+	 * \brief Move constructor
+	 */
+	IntervalVector(IntervalVector&& x) noexcept;
+
+	/**
 	 * \brief Create the IntervalVector [bounds[0][0],bounds[0][1]]x...x[bounds[n-1][0],bounds[n-1][1]]
 	 *
 	 * \param bounds an nx2 array of doubles
