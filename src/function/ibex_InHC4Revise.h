@@ -69,8 +69,8 @@ public: // because called from CompiledFunction
 	inline void min_bwd    (int x1, int x2, int y)  { if (!ibwd_min(d[y].i(),d[x1].i(),d[x2].i(),p[x1].i(),p[x2].i())) throw EmptyBoxException(); }
 	inline void atan2_bwd  (int , int , int)        { not_implemented("Inner projection of \"atan2\""); }
 	inline void minus_bwd  (int x, int y)           { if (!ibwd_minus(d[y].i(),d[x].i())) throw EmptyBoxException(); }
-	inline void minus_V_bwd(int x, int y)           { not_implemented("Inner projection of \"minus_V\""); }
-	inline void minus_M_bwd(int x, int y)           { not_implemented("Inner projection of \"minus_M\""); }
+	inline void minus_V_bwd(int , int )           { not_implemented("Inner projection of \"minus_V\""); }
+	inline void minus_M_bwd(int , int )           { not_implemented("Inner projection of \"minus_M\""); }
     inline void trans_V_bwd(int , int)              { not_implemented("Inner projection of \"transpose\""); }
     inline void trans_M_bwd(int , int)              { not_implemented("Inner projection of \"transpose\""); }
 	inline void sign_bwd   (int , int)              { not_implemented("Inner projection of \"sign\""); }
