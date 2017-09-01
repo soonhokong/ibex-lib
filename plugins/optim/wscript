@@ -54,7 +54,7 @@ def configure (conf):
 			coin_include2 = os.path.join (clp_include, "clp/coin")  # for OSX
 			coin_include3 = os.path.join (clp_include, "coinutils/coin")  # for OSX
 			clp_lib = os.path.join (clp_dir, "lib")
-			conf.env.append_unique ("INCLUDES_IBEX_DEPS", clp_include)
+			# conf.env.append_unique ("INCLUDES_IBEX_DEPS", clp_include)
 			conf.env.append_unique ("INCLUDES_IBEX_DEPS", coin_include1)
 			conf.env.append_unique ("INCLUDES_IBEX_DEPS", coin_include2)
 			conf.env.append_unique ("INCLUDES_IBEX_DEPS", coin_include3)
