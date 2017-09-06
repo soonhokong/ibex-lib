@@ -212,10 +212,23 @@ ExprApply::ExprApply(const Function& f, const Array<const ExprNode>& args) :
 
 namespace {
 
+class VariablesSingleton{
+public:
+  static NodeMap<const Variable*>& getInstance(){
+    static NodeMap<const Variable*> instance;
+    return instance;
+  }
+private:
+  VariablesSingleton()= default;
+  ~VariablesSingleton()= default;
+  VariablesSingleton(const VariablesSingleton&)= delete;
+  VariablesSingleton& operator=(const VariablesSingleton&)= delete;
+
+};
+
 // to store the link between a symbol and its "creator"
 NodeMap<const Variable*>& variables() {
-        static NodeMap<const Variable*> * _variables = new NodeMap<const Variable*>();
-        return *_variables;
+  return VariablesSingleton::getInstance();
 }
 
 }
