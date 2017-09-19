@@ -1,0 +1,4 @@
+From 0.1 to 0.2
+- New functions to solve IVP DAE in Hessenberg form of index 1
+- Compute Frechet derivatives in function of the order of the methods
+- Fix bug with the namespace when compiling with Ibex-2.1.17
