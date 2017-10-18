@@ -1,0 +1,33 @@
+--- gaol-4.2.0/gaol/gaol_interval.h
++++ gaol-4.2.0/gaol/gaol_interval.h
+@@ -88,7 +88,7 @@ namespace gaol {
+     interval(void);
+     interval(double a, double b);
+     interval(double a);
+-    interval(const interval& I);
++    interval(const interval& I) noexcept;
+ #if USING_SSE2_INSTRUCTIONS
+     interval(const __m128d& xmm);
+ #endif // USING_SSE2_INSTRUCTIONS
+--- gaol-4.2.0/gaol/gaol_interval_fpu.h
++++ gaol-4.2.0/gaol/gaol_interval_fpu.h
+@@ -82,7 +82,7 @@
+   }
+ 
+     INLINE
+-    interval::interval(const interval& I)
++    interval::interval(const interval& I) noexcept
+     {
+         lb_ = I.lb_;
+         rb_ = I.rb_;
+--- gaol-4.2.0/gaol/gaol_interval_sse.h
++++ gaol-4.2.0/gaol/gaol_interval_sse.h
+@@ -82,7 +82,7 @@
+     }
+ 
+ 
+-  INLINE interval::interval(const interval& I)
++  INLINE interval::interval(const interval& I) noexcept
+     {
+       xmmbounds = I.xmmbounds;
+     }
