@@ -16,6 +16,7 @@
 #include "ibex_Dim.h"
 #include "ibex_BitSet.h"
 #include "ibex_DoubleIndex.h"
+#include "ibex_IntervalMatrix.h"
 
 namespace ibex {
 
