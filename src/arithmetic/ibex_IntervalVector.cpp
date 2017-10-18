@@ -46,6 +46,12 @@ IntervalVector::IntervalVector(int n1, double bounds[][2]) : n(n1), vec(new Inte
 			vec[i]=Interval(bounds[i][0],bounds[i][1]);
 }
 
+#if defined __cplusplus && __cplusplus >= 201103L
+IntervalVector::IntervalVector(IntervalVector&& x) noexcept : n(x.n), vec(x.vec) {
+        x.vec = nullptr;
+}
+#endif
+
 IntervalVector::IntervalVector(const Vector& x) : n(x.size()), vec(new Interval[n]) {
 	for (int i=0; i<n; i++) vec[i]=x[i];
 }
