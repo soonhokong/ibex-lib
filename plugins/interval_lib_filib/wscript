@@ -65,7 +65,7 @@ def configure (conf):
 #define FI_ROUNDING filib::native_switched
 #define FI_MODE filib::i_mode_extended_flag
 /** \\brief IBEX_NAN: <double> representation of NaN */
-#define IBEX_NAN filib::primitive::compose(0,0x7FF,1 << 19,0)
+const double IBEX_NAN = filib::primitive::compose(0,0x7FF,1 << 19,0);
 """
 	conf.env.IBEX_INTERVAL_LIB_NEG_INFINITY = "filib::primitive::compose(1,0x7FF,0,0)"
 	conf.env.IBEX_INTERVAL_LIB_POS_INFINITY = "filib::primitive::compose(0,0x7FF,0,0)"
