@@ -89,6 +89,7 @@ def configure (conf):
 	conf.env.INCDIR_3RD = os.path.join (conf.env.INCDIR_HDR, "3rd")
 	conf.env.LIBDIR_3RD = os.path.join (conf.env.LIBDIR, "ibex", "3rd")
 	conf.env.PKGDIR = os.path.join (conf.env.PREFIX, "share", "pkgconfig")
+	conf.env.DOCDIR = os.path.join (conf.env.PREFIX, "share", "doc", "ibex")
 
 	# Add 'build' node to INCLUDES_IBEX (for generated headers)
 	conf.env.append_unique ("INCLUDES_IBEX", conf.bldnode.abspath())
@@ -243,6 +244,8 @@ def build (bld):
 	# Install ibex main header and header with settings
 	bld.install_files (bld.env.INCDIR, bld.env.ibex_header)
 	bld.install_files (bld.env.INCDIR_HDR, bld.env.ibex_header_setting)
+        # Install copyright and license
+	bld.install_files (bld.env.DOCDIR, ["COPYING.LESSER", "LICENSE"])
 
 	if bld.env.INSTALL_3RD:
 		incnode = bld.bldnode.find_node("3rd").find_node("include")
