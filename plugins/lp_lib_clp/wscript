@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import os
+import platform
 
 ######################
 ###### options #######
@@ -80,7 +81,11 @@ def configure (conf):
 
     conf.env.env = env_env_bak
 
-    conf.env.IBEX_LP_LIB_INCLUDES = '#include "ClpSimplex.hpp"'
+    if platform.system() == 'Darwin':
+        conf.env.IBEX_LP_LIB_INCLUDES = '#include "clp/coin/ClpSimplex.hpp"'
+    else:
+        conf.env.IBEX_LP_LIB_INCLUDES = '#include "coin/ClpSimplex.hpp"'
+
     conf.env.IBEX_LP_LIB_EXTRA_ATTRIBUTES = """
     ClpSimplex *myclp;
     int * _col1Index;
