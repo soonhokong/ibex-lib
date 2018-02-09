@@ -338,12 +338,12 @@ IntervalVector  IntervalVector::subvector(int start_index, int end_index) const 
 void            IntervalVector::put(int start_index, const IntervalVector& x)     { _put(*this, start_index, x); }
 IntervalVector& IntervalVector::operator=(const IntervalVector& x)                { resize(x.size()); // see issue #10
                                                                                     return _assignV(*this,x); }
-#if defined __cplusplus && __cplusplus >= 201103L
-IntervalVector& IntervalVector::operator=(IntervalVector&& x) noexcept            { n = x.n;
-                                                                                    vec = x.vec;
-                                                                                    x.vec = nullptr;
-                                                                                    return *this; }
-#endif
+// #if defined __cplusplus && __cplusplus >= 201103L
+// IntervalVector& IntervalVector::operator=(IntervalVector&& x) noexcept            { n = x.n;
+//                                                                                     vec = x.vec;
+//                                                                                     x.vec = nullptr;
+//                                                                                     return *this; }
+// #endif
 bool            IntervalVector::operator==(const IntervalVector& x) const         { return _equalsV(*this,x); }
 Vector          IntervalVector::lb() const                                        { return _lb(*this); }
 Vector          IntervalVector::ub() const                                        { return _ub(*this); }
