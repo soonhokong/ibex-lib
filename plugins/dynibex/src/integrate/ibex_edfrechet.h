@@ -17,6 +17,8 @@
 #ifndef IBEX_ED_FRECHET_H
 #define IBEX_ED_FRECHET_H
 
+#include "ibex_Affine.h"
+
 #include <iostream>
 #include <map>
 
@@ -28,12 +30,12 @@ typedef std::map<std::vector<int>, Function *> function_map;
 
 typedef struct memo {
   int step;
-  Affine2 value;
+  Affine3 value;
 } memo;
 typedef std::map<std::vector<int>, memo> value_map;
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, const std::vector<T> v) {
+std::ostream &operator<<(std::ostream &out, const std::vector<T>& v) {
   int last = v.size() - 1;
   out << "[";
   for (int i = 0; i < last; i++)
@@ -55,7 +57,7 @@ public:
 
     _global_step = 1;
 
-    memo zero = {0, Affine2(0)};
+    memo zero = {0, Affine3(0)};
 
     // sans recurrence
     for (int j = 0; j < _nbvar; j++) {
@@ -79,21 +81,23 @@ public:
 
   ~edfrechet() {}
 
-  Interval eval_frechet(int order, std::vector<int> key, IntervalVector y) {
+  Interval eval_frechet(int order, const std::vector<int>& key, const IntervalVector& y) {
     // assert(order < ORDER_MAX);
 
     return tab_derivatives[order][key]->eval(y);
   };
 
-  Affine2 eval_frechet(int order, std::vector<int> key, Affine2Vector y) {
+  Affine3 eval_frechet(int order, const std::vector<int>& key, const Affine3Vector& y) {
     // assert(order < ORDER_MAX);
 
     memo temp = tab_values[order][key];
-    Affine2 temp2;
+    Affine3 temp2;
 
     if (temp.step < _global_step) {
 
-      temp2 = tab_derivatives[order][key]->eval_affine2(y);
+      Affine3Eval eval_af(*(tab_derivatives[order][key]));
+      eval_af.eval(y).i();
+      temp2 = eval_af.af2.top->i();
       tab_values[order][key].value = temp2;
       tab_values[order][key].step = _global_step;
     } else {
@@ -124,7 +128,7 @@ private:
   value_map tab_values[ORDER_MAX];
 
   void compute_derivatives(int order, const Function *function, int nbvar,
-                           std::vector<int> key) {
+                           const std::vector<int>& key) {
     for (int j = 0; j < nbvar; j++) {
       std::vector<int> temp = key;
       temp.push_back(j);
@@ -162,7 +166,7 @@ private:
             temp_key2, &(temp_func2.operator[](j)));
         tab_derivatives[order].insert(elnt);
 
-        memo zero = {0, Affine2(0)};
+        memo zero = {0, Affine3(0)};
         std::pair<std::vector<int>, memo> elnt2(temp_key2, zero);
         tab_values[order].insert(elnt2);
       }

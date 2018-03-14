@@ -25,21 +25,17 @@ namespace ibex {
 
 class solution_g : public solution_j {
 public:
-  solution_g(Interval _time_j, IntervalVector *_box_j1, IntervalVector *_box_jn,
+  solution_g(const Interval& _time_j, IntervalVector *_box_j1, IntervalVector *_box_jn,
              IntervalVector *_box_jnh, int nb_var) {
     time_j = _time_j;
     box_j1 = new IntervalVector(_box_j1->subvector(0, nb_var - 1));
     box_jn = new IntervalVector(*_box_jn);
     box_jnh = new IntervalVector(*_box_jnh);
   }
-  ~solution_g() {}
 
   void destructor() {
-    if (box_jn != NULL)
       delete box_jn;
-    if (box_jnh != NULL)
       delete box_jnh;
-    if (box_j1 != NULL)
       delete box_j1;
   }
 };

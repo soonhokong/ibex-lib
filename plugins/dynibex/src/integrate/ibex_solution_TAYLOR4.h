@@ -26,14 +26,13 @@ class solution_j_tayl4 : public solution_j {
 public:
   // method to define
 
-  IntervalVector picard(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  IntervalVector picard(const IntervalVector& y0, ivp_ode *_ode, int ordre) {
     return picard_tayl(y0, _ode, ordre);
   }
 
   // the LTE
-  Affine2Vector LTE(IntervalVector y0, ivp_ode *_ode, double h) {
-    Affine2Vector err_aff =
-        _ode->compute_derivatives_aff(5, Affine2Vector(y0, true));
+  Affine3Vector LTE(const IntervalVector& y0, ivp_ode *_ode, double h) {
+    Affine3Vector err_aff = _ode->compute_derivatives_aff(5, Affine3Vector(y0));
     err_aff *= (std::pow(h, 5) / 120);
 
     return err_aff;
@@ -52,25 +51,22 @@ public:
   };
 
   // constructor
-  solution_j_tayl4(const Affine2Vector _box_jn, double tn, double h,
+  solution_j_tayl4(const Affine3Vector& _box_jn, double tn, double h,
                    ivp_ode *_ode, double a, double fac)
       : solution_j(_box_jn, tn, h, _ode, a, fac) {}
 
-  // destructor
-  ~solution_j_tayl4() {}
-
 private:
   // tayl4 with remainder
-  Affine2Vector remainder_taylor4(ivp_ode *_ode) {
+  Affine3Vector remainder_taylor4(ivp_ode *_ode) {
     double h = time_j.diam();
     double tol = atol * 0.001;
 
-    Affine2Vector tayl4(*box_jn_aff);
+    Affine3Vector tayl4(*box_jn_aff);
     int n = 5;
     int fac_i = 1;
     for (int i = 1; i < n; i++) {
       fac_i = fac_i * i;
-      Affine2Vector df = _ode->compute_derivatives_aff(i, *box_jn_aff);
+      Affine3Vector df = _ode->compute_derivatives_aff(i, *box_jn_aff);
       df *= (1.0 / fac_i);
       df *= pow(h, i);
 

@@ -26,14 +26,13 @@ class solution_j_heun : public solution_j {
 public:
   // method to define
 
-  IntervalVector picard(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  IntervalVector picard(const IntervalVector &y0, ivp_ode *_ode, int ordre) {
     return picard_euler(y0, _ode); // picard_tayl(y0,_ode,2);
   }
 
   // the LTE
-  Affine2Vector LTE(IntervalVector y0, ivp_ode *_ode, double h) {
-    Affine2Vector err_aff =
-        _ode->computeHEUNderivative(Affine2Vector(y0, true));
+  Affine3Vector LTE(const IntervalVector &y0, ivp_ode *_ode, double h) {
+    Affine3Vector err_aff = _ode->computeHEUNderivative(Affine3Vector(y0));
     err_aff *= (std::pow(time_j.diam(), 3) / 6.0);
     return err_aff;
   }
@@ -51,22 +50,19 @@ public:
   };
 
   // constructor
-  solution_j_heun(const Affine2Vector _box_jn, double tn, double h,
+  solution_j_heun(const Affine3Vector &_box_jn, double tn, double h,
                   ivp_ode *_ode, double a, double fac)
       : solution_j(_box_jn, tn, h, _ode, a, fac) {}
 
-  // destructor
-  ~solution_j_heun() {}
-
 private:
   // heun with remainder
-  Affine2Vector remainder_heun(ivp_ode *_ode) {
+  Affine3Vector remainder_heun(ivp_ode *_ode) {
     double h = time_j.diam();
 
-    Affine2Vector k1 = _ode->compute_derivatives_aff(1, *box_jn_aff);
-    Affine2Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + h * k1);
+    Affine3Vector k1 = _ode->compute_derivatives_aff(1, *box_jn_aff);
+    Affine3Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + h * k1);
 
-    Affine2Vector heun = k1 + k2;
+    Affine3Vector heun = k1 + k2;
     heun *= (h / 2.0);
     heun += *box_jn_aff;
 

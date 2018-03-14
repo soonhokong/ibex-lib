@@ -18,13 +18,13 @@
 #include <vector>
 namespace ibex {
 
-Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
+Affine3 edtree_frechet::get_derivatives(int order, const Affine3Vector& y, int j) {
   int j1, j2, j3, j4, j5;
   switch (order) {
   case 0:
     return y[j];
   case 1: {
-    Affine2 res1(0.0);
+    Affine3 res1(0.0);
     std::vector<int> key0;
     // Tree computation
 
@@ -36,7 +36,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 2: {
-    Affine2 res1(0.0);
+    Affine3 res1(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     for (int j1 = 0; j1 < nbvar; ++j1) {
@@ -44,12 +44,12 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp2 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp2 = edfr->eval_frechet(1, key0, y);
 
       // Tree computation
       res1 += temp1 * temp2;
@@ -59,8 +59,8 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 3: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -69,30 +69,30 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp5 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp5 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp3 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp3 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp4 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp4 = edfr->eval_frechet(1, key0, y);
 
         // Tree computation
         res1 += temp1 * temp2 * temp3;
@@ -104,10 +104,10 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 4: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
-    Affine2 res3(0.0);
-    Affine2 res4(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
+    Affine3 res3(0.0);
+    Affine3 res4(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -117,55 +117,55 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp8 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp8 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp6 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp6 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp9 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp9 = edfr->eval_frechet(1, key0, y);
 
         for (int j3 = 0; j3 < nbvar; ++j3) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j3);
-          Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp4 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp4 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp7 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp7 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp5 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp5 = edfr->eval_frechet(1, key0, y);
 
           // Tree computation
           res1 += temp1 * temp2 * temp3 * temp4;
@@ -180,15 +180,15 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 5: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
-    Affine2 res3(0.0);
-    Affine2 res4(0.0);
-    Affine2 res5(0.0);
-    Affine2 res6(0.0);
-    Affine2 res7(0.0);
-    Affine2 res8(0.0);
-    Affine2 res9(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
+    Affine3 res3(0.0);
+    Affine3 res4(0.0);
+    Affine3 res5(0.0);
+    Affine3 res6(0.0);
+    Affine3 res7(0.0);
+    Affine3 res8(0.0);
+    Affine3 res9(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -199,67 +199,67 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp9 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp9 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp16 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp16 = edfr->eval_frechet(1, key0, y);
 
         for (int j3 = 0; j3 < nbvar; ++j3) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j3);
-          Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp7 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp7 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp15 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp15 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j3);
-          Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp10 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp10 = edfr->eval_frechet(1, key0, y);
 
           for (int j4 = 0; j4 < nbvar; ++j4) {
             // Common Factor
 
             key0.clear();
             key0.push_back(j4);
-            Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+            Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
             key0.clear();
             key0.push_back(j);
@@ -267,30 +267,30 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp5 = edfr->eval_frechet(4, key0, y);
+            Affine3 temp5 = edfr->eval_frechet(4, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp13 = edfr->eval_frechet(3, key0, y);
+            Affine3 temp13 = edfr->eval_frechet(3, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp8 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp8 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j4);
-            Affine2 temp11 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp11 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp6 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp6 = edfr->eval_frechet(1, key0, y);
 
             // Tree computation
             res1 += temp1 * temp2 * temp3 * temp4 * temp5;
@@ -311,26 +311,26 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
            res6 + res1;
   }
   case 6: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
-    Affine2 res3(0.0);
-    Affine2 res4(0.0);
-    Affine2 res5(0.0);
-    Affine2 res6(0.0);
-    Affine2 res7(0.0);
-    Affine2 res8(0.0);
-    Affine2 res9(0.0);
-    Affine2 res10(0.0);
-    Affine2 res11(0.0);
-    Affine2 res12(0.0);
-    Affine2 res13(0.0);
-    Affine2 res14(0.0);
-    Affine2 res15(0.0);
-    Affine2 res16(0.0);
-    Affine2 res17(0.0);
-    Affine2 res18(0.0);
-    Affine2 res19(0.0);
-    Affine2 res20(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
+    Affine3 res3(0.0);
+    Affine3 res4(0.0);
+    Affine3 res5(0.0);
+    Affine3 res6(0.0);
+    Affine3 res7(0.0);
+    Affine3 res8(0.0);
+    Affine3 res9(0.0);
+    Affine3 res10(0.0);
+    Affine3 res11(0.0);
+    Affine3 res12(0.0);
+    Affine3 res13(0.0);
+    Affine3 res14(0.0);
+    Affine3 res15(0.0);
+    Affine3 res16(0.0);
+    Affine3 res17(0.0);
+    Affine3 res18(0.0);
+    Affine3 res19(0.0);
+    Affine3 res20(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -342,67 +342,67 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp5 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp5 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp21 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp21 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp15 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp15 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp24 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp24 = edfr->eval_frechet(1, key0, y);
 
         for (int j3 = 0; j3 < nbvar; ++j3) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j3);
-          Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp10 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp10 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp23 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp23 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j3);
-          Affine2 temp19 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp19 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp17 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp17 = edfr->eval_frechet(1, key0, y);
 
           for (int j4 = 0; j4 < nbvar; ++j4) {
             // Common Factor
 
             key0.clear();
             key0.push_back(j4);
-            Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+            Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
             key0.clear();
             key0.push_back(j);
@@ -410,37 +410,37 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp8 = edfr->eval_frechet(4, key0, y);
+            Affine3 temp8 = edfr->eval_frechet(4, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp22 = edfr->eval_frechet(3, key0, y);
+            Affine3 temp22 = edfr->eval_frechet(3, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp16 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp16 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j4);
-            Affine2 temp13 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp13 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp11 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp11 = edfr->eval_frechet(1, key0, y);
 
             for (int j5 = 0; j5 < nbvar; ++j5) {
               // Common Factor
 
               key0.clear();
               key0.push_back(j5);
-              Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+              Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
               key0.clear();
               key0.push_back(j);
@@ -449,7 +449,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp6 = edfr->eval_frechet(5, key0, y);
+              Affine3 temp6 = edfr->eval_frechet(5, key0, y);
 
               key0.clear();
               key0.push_back(j1);
@@ -457,36 +457,36 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp20 = edfr->eval_frechet(4, key0, y);
+              Affine3 temp20 = edfr->eval_frechet(4, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp14 = edfr->eval_frechet(3, key0, y);
+              Affine3 temp14 = edfr->eval_frechet(3, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp18 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp18 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp9 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp9 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j5);
-              Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
               key0.clear();
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp7 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp7 = edfr->eval_frechet(1, key0, y);
 
               // Tree computation
               res1 += temp1 * temp2 * temp3 * temp4 * temp5 * temp6;
@@ -521,54 +521,54 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 7: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
-    Affine2 res3(0.0);
-    Affine2 res4(0.0);
-    Affine2 res5(0.0);
-    Affine2 res6(0.0);
-    Affine2 res7(0.0);
-    Affine2 res8(0.0);
-    Affine2 res9(0.0);
-    Affine2 res10(0.0);
-    Affine2 res11(0.0);
-    Affine2 res12(0.0);
-    Affine2 res13(0.0);
-    Affine2 res14(0.0);
-    Affine2 res15(0.0);
-    Affine2 res16(0.0);
-    Affine2 res17(0.0);
-    Affine2 res18(0.0);
-    Affine2 res19(0.0);
-    Affine2 res20(0.0);
-    Affine2 res21(0.0);
-    Affine2 res22(0.0);
-    Affine2 res23(0.0);
-    Affine2 res24(0.0);
-    Affine2 res25(0.0);
-    Affine2 res26(0.0);
-    Affine2 res27(0.0);
-    Affine2 res28(0.0);
-    Affine2 res29(0.0);
-    Affine2 res30(0.0);
-    Affine2 res31(0.0);
-    Affine2 res32(0.0);
-    Affine2 res33(0.0);
-    Affine2 res34(0.0);
-    Affine2 res35(0.0);
-    Affine2 res36(0.0);
-    Affine2 res37(0.0);
-    Affine2 res38(0.0);
-    Affine2 res39(0.0);
-    Affine2 res40(0.0);
-    Affine2 res41(0.0);
-    Affine2 res42(0.0);
-    Affine2 res43(0.0);
-    Affine2 res44(0.0);
-    Affine2 res45(0.0);
-    Affine2 res46(0.0);
-    Affine2 res47(0.0);
-    Affine2 res48(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
+    Affine3 res3(0.0);
+    Affine3 res4(0.0);
+    Affine3 res5(0.0);
+    Affine3 res6(0.0);
+    Affine3 res7(0.0);
+    Affine3 res8(0.0);
+    Affine3 res9(0.0);
+    Affine3 res10(0.0);
+    Affine3 res11(0.0);
+    Affine3 res12(0.0);
+    Affine3 res13(0.0);
+    Affine3 res14(0.0);
+    Affine3 res15(0.0);
+    Affine3 res16(0.0);
+    Affine3 res17(0.0);
+    Affine3 res18(0.0);
+    Affine3 res19(0.0);
+    Affine3 res20(0.0);
+    Affine3 res21(0.0);
+    Affine3 res22(0.0);
+    Affine3 res23(0.0);
+    Affine3 res24(0.0);
+    Affine3 res25(0.0);
+    Affine3 res26(0.0);
+    Affine3 res27(0.0);
+    Affine3 res28(0.0);
+    Affine3 res29(0.0);
+    Affine3 res30(0.0);
+    Affine3 res31(0.0);
+    Affine3 res32(0.0);
+    Affine3 res33(0.0);
+    Affine3 res34(0.0);
+    Affine3 res35(0.0);
+    Affine3 res36(0.0);
+    Affine3 res37(0.0);
+    Affine3 res38(0.0);
+    Affine3 res39(0.0);
+    Affine3 res40(0.0);
+    Affine3 res41(0.0);
+    Affine3 res42(0.0);
+    Affine3 res43(0.0);
+    Affine3 res44(0.0);
+    Affine3 res45(0.0);
+    Affine3 res46(0.0);
+    Affine3 res47(0.0);
+    Affine3 res48(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -581,67 +581,67 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp6 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp6 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp35 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp35 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp5 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp5 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp22 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp22 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp39 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp39 = edfr->eval_frechet(1, key0, y);
 
         for (int j3 = 0; j3 < nbvar; ++j3) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j3);
-          Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp16 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp16 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp38 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp38 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j3);
-          Affine2 temp30 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp30 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp25 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp25 = edfr->eval_frechet(1, key0, y);
 
           for (int j4 = 0; j4 < nbvar; ++j4) {
             // Common Factor
 
             key0.clear();
             key0.push_back(j4);
-            Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+            Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
             key0.clear();
             key0.push_back(j);
@@ -649,48 +649,48 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp11 = edfr->eval_frechet(4, key0, y);
+            Affine3 temp11 = edfr->eval_frechet(4, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp37 = edfr->eval_frechet(3, key0, y);
+            Affine3 temp37 = edfr->eval_frechet(3, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp33 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp33 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j4);
-            Affine2 temp28 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp28 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp24 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp24 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j4);
-            Affine2 temp20 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp20 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp18 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp18 = edfr->eval_frechet(1, key0, y);
 
             for (int j5 = 0; j5 < nbvar; ++j5) {
               // Common Factor
 
               key0.clear();
               key0.push_back(j5);
-              Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+              Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
               key0.clear();
               key0.push_back(j);
@@ -699,7 +699,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp9 = edfr->eval_frechet(5, key0, y);
+              Affine3 temp9 = edfr->eval_frechet(5, key0, y);
 
               key0.clear();
               key0.push_back(j1);
@@ -707,48 +707,48 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp36 = edfr->eval_frechet(4, key0, y);
+              Affine3 temp36 = edfr->eval_frechet(4, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp23 = edfr->eval_frechet(3, key0, y);
+              Affine3 temp23 = edfr->eval_frechet(3, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp31 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp31 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j5);
-              Affine2 temp27 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp27 = edfr->eval_frechet(1, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp17 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp17 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j5);
-              Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
               key0.clear();
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
               for (int j6 = 0; j6 < nbvar; ++j6) {
                 // Common Factor
 
                 key0.clear();
                 key0.push_back(j6);
-                Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+                Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
                 key0.clear();
                 key0.push_back(j);
@@ -758,7 +758,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp7 = edfr->eval_frechet(6, key0, y);
+                Affine3 temp7 = edfr->eval_frechet(6, key0, y);
 
                 key0.clear();
                 key0.push_back(j1);
@@ -767,7 +767,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp34 = edfr->eval_frechet(5, key0, y);
+                Affine3 temp34 = edfr->eval_frechet(5, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
@@ -775,54 +775,54 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp21 = edfr->eval_frechet(4, key0, y);
+                Affine3 temp21 = edfr->eval_frechet(4, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp29 = edfr->eval_frechet(3, key0, y);
+                Affine3 temp29 = edfr->eval_frechet(3, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp32 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp32 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp15 = edfr->eval_frechet(3, key0, y);
+                Affine3 temp15 = edfr->eval_frechet(3, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp19 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp19 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j6);
-                Affine2 temp26 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp26 = edfr->eval_frechet(1, key0, y);
 
                 key0.clear();
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp10 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp10 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j4);
                 key0.push_back(j6);
-                Affine2 temp13 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp13 = edfr->eval_frechet(1, key0, y);
 
                 key0.clear();
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp8 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp8 = edfr->eval_frechet(1, key0, y);
 
                 // Tree computation
                 res1 += temp1 * temp2 * temp3 * temp4 * temp5 * temp6 * temp7;
@@ -934,121 +934,121 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
   }
 
   case 8: {
-    Affine2 res1(0.0);
-    Affine2 res2(0.0);
-    Affine2 res3(0.0);
-    Affine2 res4(0.0);
-    Affine2 res5(0.0);
-    Affine2 res6(0.0);
-    Affine2 res7(0.0);
-    Affine2 res8(0.0);
-    Affine2 res9(0.0);
-    Affine2 res10(0.0);
-    Affine2 res11(0.0);
-    Affine2 res12(0.0);
-    Affine2 res13(0.0);
-    Affine2 res14(0.0);
-    Affine2 res15(0.0);
-    Affine2 res16(0.0);
-    Affine2 res17(0.0);
-    Affine2 res18(0.0);
-    Affine2 res19(0.0);
-    Affine2 res20(0.0);
-    Affine2 res21(0.0);
-    Affine2 res22(0.0);
-    Affine2 res23(0.0);
-    Affine2 res24(0.0);
-    Affine2 res25(0.0);
-    Affine2 res26(0.0);
-    Affine2 res27(0.0);
-    Affine2 res28(0.0);
-    Affine2 res29(0.0);
-    Affine2 res30(0.0);
-    Affine2 res31(0.0);
-    Affine2 res32(0.0);
-    Affine2 res33(0.0);
-    Affine2 res34(0.0);
-    Affine2 res35(0.0);
-    Affine2 res36(0.0);
-    Affine2 res37(0.0);
-    Affine2 res38(0.0);
-    Affine2 res39(0.0);
-    Affine2 res40(0.0);
-    Affine2 res41(0.0);
-    Affine2 res42(0.0);
-    Affine2 res43(0.0);
-    Affine2 res44(0.0);
-    Affine2 res45(0.0);
-    Affine2 res46(0.0);
-    Affine2 res47(0.0);
-    Affine2 res48(0.0);
-    Affine2 res49(0.0);
-    Affine2 res50(0.0);
-    Affine2 res51(0.0);
-    Affine2 res52(0.0);
-    Affine2 res53(0.0);
-    Affine2 res54(0.0);
-    Affine2 res55(0.0);
-    Affine2 res56(0.0);
-    Affine2 res57(0.0);
-    Affine2 res58(0.0);
-    Affine2 res59(0.0);
-    Affine2 res60(0.0);
-    Affine2 res61(0.0);
-    Affine2 res62(0.0);
-    Affine2 res63(0.0);
-    Affine2 res64(0.0);
-    Affine2 res65(0.0);
-    Affine2 res66(0.0);
-    Affine2 res67(0.0);
-    Affine2 res68(0.0);
-    Affine2 res69(0.0);
-    Affine2 res70(0.0);
-    Affine2 res71(0.0);
-    Affine2 res72(0.0);
-    Affine2 res73(0.0);
-    Affine2 res74(0.0);
-    Affine2 res75(0.0);
-    Affine2 res76(0.0);
-    Affine2 res77(0.0);
-    Affine2 res78(0.0);
-    Affine2 res79(0.0);
-    Affine2 res80(0.0);
-    Affine2 res81(0.0);
-    Affine2 res82(0.0);
-    Affine2 res83(0.0);
-    Affine2 res84(0.0);
-    Affine2 res85(0.0);
-    Affine2 res86(0.0);
-    Affine2 res87(0.0);
-    Affine2 res88(0.0);
-    Affine2 res89(0.0);
-    Affine2 res90(0.0);
-    Affine2 res91(0.0);
-    Affine2 res92(0.0);
-    Affine2 res93(0.0);
-    Affine2 res94(0.0);
-    Affine2 res95(0.0);
-    Affine2 res96(0.0);
-    Affine2 res97(0.0);
-    Affine2 res98(0.0);
-    Affine2 res99(0.0);
-    Affine2 res100(0.0);
-    Affine2 res101(0.0);
-    Affine2 res102(0.0);
-    Affine2 res103(0.0);
-    Affine2 res104(0.0);
-    Affine2 res105(0.0);
-    Affine2 res106(0.0);
-    Affine2 res107(0.0);
-    Affine2 res108(0.0);
-    Affine2 res109(0.0);
-    Affine2 res110(0.0);
-    Affine2 res111(0.0);
-    Affine2 res112(0.0);
-    Affine2 res113(0.0);
-    Affine2 res114(0.0);
-    Affine2 res115(0.0);
+    Affine3 res1(0.0);
+    Affine3 res2(0.0);
+    Affine3 res3(0.0);
+    Affine3 res4(0.0);
+    Affine3 res5(0.0);
+    Affine3 res6(0.0);
+    Affine3 res7(0.0);
+    Affine3 res8(0.0);
+    Affine3 res9(0.0);
+    Affine3 res10(0.0);
+    Affine3 res11(0.0);
+    Affine3 res12(0.0);
+    Affine3 res13(0.0);
+    Affine3 res14(0.0);
+    Affine3 res15(0.0);
+    Affine3 res16(0.0);
+    Affine3 res17(0.0);
+    Affine3 res18(0.0);
+    Affine3 res19(0.0);
+    Affine3 res20(0.0);
+    Affine3 res21(0.0);
+    Affine3 res22(0.0);
+    Affine3 res23(0.0);
+    Affine3 res24(0.0);
+    Affine3 res25(0.0);
+    Affine3 res26(0.0);
+    Affine3 res27(0.0);
+    Affine3 res28(0.0);
+    Affine3 res29(0.0);
+    Affine3 res30(0.0);
+    Affine3 res31(0.0);
+    Affine3 res32(0.0);
+    Affine3 res33(0.0);
+    Affine3 res34(0.0);
+    Affine3 res35(0.0);
+    Affine3 res36(0.0);
+    Affine3 res37(0.0);
+    Affine3 res38(0.0);
+    Affine3 res39(0.0);
+    Affine3 res40(0.0);
+    Affine3 res41(0.0);
+    Affine3 res42(0.0);
+    Affine3 res43(0.0);
+    Affine3 res44(0.0);
+    Affine3 res45(0.0);
+    Affine3 res46(0.0);
+    Affine3 res47(0.0);
+    Affine3 res48(0.0);
+    Affine3 res49(0.0);
+    Affine3 res50(0.0);
+    Affine3 res51(0.0);
+    Affine3 res52(0.0);
+    Affine3 res53(0.0);
+    Affine3 res54(0.0);
+    Affine3 res55(0.0);
+    Affine3 res56(0.0);
+    Affine3 res57(0.0);
+    Affine3 res58(0.0);
+    Affine3 res59(0.0);
+    Affine3 res60(0.0);
+    Affine3 res61(0.0);
+    Affine3 res62(0.0);
+    Affine3 res63(0.0);
+    Affine3 res64(0.0);
+    Affine3 res65(0.0);
+    Affine3 res66(0.0);
+    Affine3 res67(0.0);
+    Affine3 res68(0.0);
+    Affine3 res69(0.0);
+    Affine3 res70(0.0);
+    Affine3 res71(0.0);
+    Affine3 res72(0.0);
+    Affine3 res73(0.0);
+    Affine3 res74(0.0);
+    Affine3 res75(0.0);
+    Affine3 res76(0.0);
+    Affine3 res77(0.0);
+    Affine3 res78(0.0);
+    Affine3 res79(0.0);
+    Affine3 res80(0.0);
+    Affine3 res81(0.0);
+    Affine3 res82(0.0);
+    Affine3 res83(0.0);
+    Affine3 res84(0.0);
+    Affine3 res85(0.0);
+    Affine3 res86(0.0);
+    Affine3 res87(0.0);
+    Affine3 res88(0.0);
+    Affine3 res89(0.0);
+    Affine3 res90(0.0);
+    Affine3 res91(0.0);
+    Affine3 res92(0.0);
+    Affine3 res93(0.0);
+    Affine3 res94(0.0);
+    Affine3 res95(0.0);
+    Affine3 res96(0.0);
+    Affine3 res97(0.0);
+    Affine3 res98(0.0);
+    Affine3 res99(0.0);
+    Affine3 res100(0.0);
+    Affine3 res101(0.0);
+    Affine3 res102(0.0);
+    Affine3 res103(0.0);
+    Affine3 res104(0.0);
+    Affine3 res105(0.0);
+    Affine3 res106(0.0);
+    Affine3 res107(0.0);
+    Affine3 res108(0.0);
+    Affine3 res109(0.0);
+    Affine3 res110(0.0);
+    Affine3 res111(0.0);
+    Affine3 res112(0.0);
+    Affine3 res113(0.0);
+    Affine3 res114(0.0);
+    Affine3 res115(0.0);
     std::vector<int> key0;
     std::vector<int> key1;
     std::vector<int> key2;
@@ -1062,67 +1062,67 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
       key0.clear();
       key0.push_back(j1);
-      Affine2 temp7 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp7 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
-      Affine2 temp51 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp51 = edfr->eval_frechet(1, key0, y);
 
       for (int j2 = 0; j2 < nbvar; ++j2) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j2);
-        Affine2 temp6 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp6 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp36 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp36 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
-        Affine2 temp56 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp56 = edfr->eval_frechet(1, key0, y);
 
         for (int j3 = 0; j3 < nbvar; ++j3) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j3);
-          Affine2 temp5 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp5 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp23 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp23 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp55 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp55 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j3);
-          Affine2 temp43 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp43 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
-          Affine2 temp40 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp40 = edfr->eval_frechet(1, key0, y);
 
           for (int j4 = 0; j4 < nbvar; ++j4) {
             // Common Factor
 
             key0.clear();
             key0.push_back(j4);
-            Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+            Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
             key0.clear();
             key0.push_back(j);
@@ -1130,48 +1130,48 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp17 = edfr->eval_frechet(4, key0, y);
+            Affine3 temp17 = edfr->eval_frechet(4, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp54 = edfr->eval_frechet(3, key0, y);
+            Affine3 temp54 = edfr->eval_frechet(3, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp46 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp46 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j1);
             key0.push_back(j4);
-            Affine2 temp41 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp41 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp39 = edfr->eval_frechet(2, key0, y);
+            Affine3 temp39 = edfr->eval_frechet(2, key0, y);
 
             key0.clear();
             key0.push_back(j2);
             key0.push_back(j4);
-            Affine2 temp31 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp31 = edfr->eval_frechet(1, key0, y);
 
             key0.clear();
             key0.push_back(j3);
             key0.push_back(j4);
-            Affine2 temp26 = edfr->eval_frechet(1, key0, y);
+            Affine3 temp26 = edfr->eval_frechet(1, key0, y);
 
             for (int j5 = 0; j5 < nbvar; ++j5) {
               // Common Factor
 
               key0.clear();
               key0.push_back(j5);
-              Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+              Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
               key0.clear();
               key0.push_back(j);
@@ -1180,7 +1180,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp12 = edfr->eval_frechet(5, key0, y);
+              Affine3 temp12 = edfr->eval_frechet(5, key0, y);
 
               key0.clear();
               key0.push_back(j1);
@@ -1188,55 +1188,55 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp53 = edfr->eval_frechet(4, key0, y);
+              Affine3 temp53 = edfr->eval_frechet(4, key0, y);
 
               key0.clear();
               key0.push_back(j1);
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp49 = edfr->eval_frechet(3, key0, y);
+              Affine3 temp49 = edfr->eval_frechet(3, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp38 = edfr->eval_frechet(3, key0, y);
+              Affine3 temp38 = edfr->eval_frechet(3, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp34 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp34 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j2);
               key0.push_back(j5);
-              Affine2 temp29 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp29 = edfr->eval_frechet(1, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp25 = edfr->eval_frechet(2, key0, y);
+              Affine3 temp25 = edfr->eval_frechet(2, key0, y);
 
               key0.clear();
               key0.push_back(j3);
               key0.push_back(j5);
-              Affine2 temp21 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp21 = edfr->eval_frechet(1, key0, y);
 
               key0.clear();
               key0.push_back(j4);
               key0.push_back(j5);
-              Affine2 temp19 = edfr->eval_frechet(1, key0, y);
+              Affine3 temp19 = edfr->eval_frechet(1, key0, y);
 
               for (int j6 = 0; j6 < nbvar; ++j6) {
                 // Common Factor
 
                 key0.clear();
                 key0.push_back(j6);
-                Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+                Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
                 key0.clear();
                 key0.push_back(j);
@@ -1246,7 +1246,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp10 = edfr->eval_frechet(6, key0, y);
+                Affine3 temp10 = edfr->eval_frechet(6, key0, y);
 
                 key0.clear();
                 key0.push_back(j1);
@@ -1255,7 +1255,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp52 = edfr->eval_frechet(5, key0, y);
+                Affine3 temp52 = edfr->eval_frechet(5, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
@@ -1263,66 +1263,66 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp37 = edfr->eval_frechet(4, key0, y);
+                Affine3 temp37 = edfr->eval_frechet(4, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp44 = edfr->eval_frechet(3, key0, y);
+                Affine3 temp44 = edfr->eval_frechet(3, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp47 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp47 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j2);
                 key0.push_back(j6);
-                Affine2 temp48 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp48 = edfr->eval_frechet(1, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp24 = edfr->eval_frechet(3, key0, y);
+                Affine3 temp24 = edfr->eval_frechet(3, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp32 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp32 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j3);
                 key0.push_back(j6);
-                Affine2 temp28 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp28 = edfr->eval_frechet(1, key0, y);
 
                 key0.clear();
                 key0.push_back(j4);
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp18 = edfr->eval_frechet(2, key0, y);
+                Affine3 temp18 = edfr->eval_frechet(2, key0, y);
 
                 key0.clear();
                 key0.push_back(j4);
                 key0.push_back(j6);
-                Affine2 temp15 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp15 = edfr->eval_frechet(1, key0, y);
 
                 key0.clear();
                 key0.push_back(j5);
                 key0.push_back(j6);
-                Affine2 temp13 = edfr->eval_frechet(1, key0, y);
+                Affine3 temp13 = edfr->eval_frechet(1, key0, y);
 
                 for (int j7 = 0; j7 < nbvar; ++j7) {
                   // Common Factor
 
                   key0.clear();
                   key0.push_back(j7);
-                  Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+                  Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
                   key0.clear();
                   key0.push_back(j);
@@ -1333,7 +1333,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp8 = edfr->eval_frechet(7, key0, y);
+                  Affine3 temp8 = edfr->eval_frechet(7, key0, y);
 
                   key0.clear();
                   key0.push_back(j1);
@@ -1343,7 +1343,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp50 = edfr->eval_frechet(6, key0, y);
+                  Affine3 temp50 = edfr->eval_frechet(6, key0, y);
 
                   key0.clear();
                   key0.push_back(j2);
@@ -1352,7 +1352,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp35 = edfr->eval_frechet(5, key0, y);
+                  Affine3 temp35 = edfr->eval_frechet(5, key0, y);
 
                   key0.clear();
                   key0.push_back(j2);
@@ -1360,14 +1360,14 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp42 = edfr->eval_frechet(4, key0, y);
+                  Affine3 temp42 = edfr->eval_frechet(4, key0, y);
 
                   key0.clear();
                   key0.push_back(j2);
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp45 = edfr->eval_frechet(3, key0, y);
+                  Affine3 temp45 = edfr->eval_frechet(3, key0, y);
 
                   key0.clear();
                   key0.push_back(j3);
@@ -1375,54 +1375,54 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp22 = edfr->eval_frechet(4, key0, y);
+                  Affine3 temp22 = edfr->eval_frechet(4, key0, y);
 
                   key0.clear();
                   key0.push_back(j3);
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp30 = edfr->eval_frechet(3, key0, y);
+                  Affine3 temp30 = edfr->eval_frechet(3, key0, y);
 
                   key0.clear();
                   key0.push_back(j3);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp33 = edfr->eval_frechet(2, key0, y);
+                  Affine3 temp33 = edfr->eval_frechet(2, key0, y);
 
                   key0.clear();
                   key0.push_back(j4);
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp16 = edfr->eval_frechet(3, key0, y);
+                  Affine3 temp16 = edfr->eval_frechet(3, key0, y);
 
                   key0.clear();
                   key0.push_back(j4);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp20 = edfr->eval_frechet(2, key0, y);
+                  Affine3 temp20 = edfr->eval_frechet(2, key0, y);
 
                   key0.clear();
                   key0.push_back(j4);
                   key0.push_back(j7);
-                  Affine2 temp27 = edfr->eval_frechet(1, key0, y);
+                  Affine3 temp27 = edfr->eval_frechet(1, key0, y);
 
                   key0.clear();
                   key0.push_back(j5);
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp11 = edfr->eval_frechet(2, key0, y);
+                  Affine3 temp11 = edfr->eval_frechet(2, key0, y);
 
                   key0.clear();
                   key0.push_back(j5);
                   key0.push_back(j7);
-                  Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+                  Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
                   key0.clear();
                   key0.push_back(j6);
                   key0.push_back(j7);
-                  Affine2 temp9 = edfr->eval_frechet(1, key0, y);
+                  Affine3 temp9 = edfr->eval_frechet(1, key0, y);
 
                   // Tree computation
                   res1 += temp1 * temp2 * temp3 * temp4 * temp5 * temp6 *
@@ -1689,7 +1689,7 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 
   default: {
     // std::cerr<< "Not implemented" << std::endl;
-    return Affine2(Interval::ALL_REALS);
+    return Affine3(Interval::ALL_REALS);
   }
   }
 };
@@ -1703,16 +1703,16 @@ Affine2 edtree_frechet::get_derivatives(int order, Affine2Vector y, int j) {
 // A = [ [ 0; 0; 0; 0 ];   [ 1/2; 0; 0; 0 ];   [ 0; 1/2; 0; 0 ];   [ 0; 0; 1; 0
 // ] ] b = [ 1/6; 1/3; 1/3; 1/6 ]
 
-Affine2 edtree_frechet::lteExplicitRK4(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
-  Affine2 res3(0.0);
-  Affine2 res4(0.0);
-  Affine2 res5(0.0);
-  Affine2 res6(0.0);
-  Affine2 res7(0.0);
-  Affine2 res8(0.0);
-  Affine2 res9(0.0);
+Affine3 edtree_frechet::lteExplicitRK4(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
+  Affine3 res3(0.0);
+  Affine3 res4(0.0);
+  Affine3 res5(0.0);
+  Affine3 res6(0.0);
+  Affine3 res7(0.0);
+  Affine3 res8(0.0);
+  Affine3 res9(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -1723,67 +1723,67 @@ Affine2 edtree_frechet::lteExplicitRK4(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp9 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp9 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp16 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp16 = edfr->eval_frechet(1, key0, y);
 
       for (int j3 = 0; j3 < nbvar; ++j3) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j3);
-        Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp7 = edfr->eval_frechet(3, key0, y);
+        Affine3 temp7 = edfr->eval_frechet(3, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp15 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp15 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j3);
-        Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
         key0.clear();
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp10 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp10 = edfr->eval_frechet(1, key0, y);
 
         for (int j4 = 0; j4 < nbvar; ++j4) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j4);
-          Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
@@ -1791,30 +1791,30 @@ Affine2 edtree_frechet::lteExplicitRK4(int j, Affine2Vector y) {
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp5 = edfr->eval_frechet(4, key0, y);
+          Affine3 temp5 = edfr->eval_frechet(4, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp13 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp13 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp8 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp8 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j4);
-          Affine2 temp11 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp11 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp6 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp6 = edfr->eval_frechet(1, key0, y);
 
           // Tree computation
           res1 += temp1 * temp2 * temp3 * temp4 * temp5;
@@ -1846,16 +1846,16 @@ Affine2 edtree_frechet::lteExplicitRK4(int j, Affine2Vector y) {
 // A = [ [ 0; 0; 0 ];   [ 5/24; 1/3; -1/24 ];   [ 1/6; 2/3; 1/6 ] ]
 // b = [ 1/6; 2/3; 1/6 ]
 
-Affine2 edtree_frechet::lteImplicitLobbato3a4(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
-  Affine2 res3(0.0);
-  Affine2 res4(0.0);
-  Affine2 res5(0.0);
-  Affine2 res6(0.0);
-  Affine2 res7(0.0);
-  Affine2 res8(0.0);
-  Affine2 res9(0.0);
+Affine3 edtree_frechet::lteImplicitLobbato3a4(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
+  Affine3 res3(0.0);
+  Affine3 res4(0.0);
+  Affine3 res5(0.0);
+  Affine3 res6(0.0);
+  Affine3 res7(0.0);
+  Affine3 res8(0.0);
+  Affine3 res9(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -1866,67 +1866,67 @@ Affine2 edtree_frechet::lteImplicitLobbato3a4(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp9 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp9 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp16 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp16 = edfr->eval_frechet(1, key0, y);
 
       for (int j3 = 0; j3 < nbvar; ++j3) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j3);
-        Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp7 = edfr->eval_frechet(3, key0, y);
+        Affine3 temp7 = edfr->eval_frechet(3, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp15 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp15 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j3);
-        Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
         key0.clear();
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp10 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp10 = edfr->eval_frechet(1, key0, y);
 
         for (int j4 = 0; j4 < nbvar; ++j4) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j4);
-          Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
@@ -1934,30 +1934,30 @@ Affine2 edtree_frechet::lteImplicitLobbato3a4(int j, Affine2Vector y) {
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp5 = edfr->eval_frechet(4, key0, y);
+          Affine3 temp5 = edfr->eval_frechet(4, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp13 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp13 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp8 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp8 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j4);
-          Affine2 temp11 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp11 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp6 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp6 = edfr->eval_frechet(1, key0, y);
 
           // Tree computation
           res1 += temp1 * temp2 * temp3 * temp4 * temp5;
@@ -1989,8 +1989,8 @@ Affine2 edtree_frechet::lteImplicitLobbato3a4(int j, Affine2Vector y) {
 // A = [ [ 1 ] ]
 // b = [ 1 ]
 
-Affine2 edtree_frechet::lteImplicitEuler(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
+Affine3 edtree_frechet::lteImplicitEuler(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   for (int j1 = 0; j1 < nbvar; ++j1) {
@@ -1998,12 +1998,12 @@ Affine2 edtree_frechet::lteImplicitEuler(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp2 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp2 = edfr->eval_frechet(1, key0, y);
 
     // Tree computation
     res1 += temp1 * temp2;
@@ -2021,9 +2021,9 @@ Affine2 edtree_frechet::lteImplicitEuler(int j, Affine2Vector y) {
 // A = [ [ 1/2 ] ]
 // b = [ 1 ]
 
-Affine2 edtree_frechet::lteImplicitMidpoint(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
+Affine3 edtree_frechet::lteImplicitMidpoint(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -2032,30 +2032,30 @@ Affine2 edtree_frechet::lteImplicitMidpoint(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp5 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp5 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp3 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp4 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp4 = edfr->eval_frechet(1, key0, y);
 
       // Tree computation
       res1 += temp1 * temp2 * temp3;
@@ -2075,11 +2075,11 @@ Affine2 edtree_frechet::lteImplicitMidpoint(int j, Affine2Vector y) {
 // A = [ [ 5/12; -1/12 ];   [ 3/4; 1/4 ] ]
 // b = [ 3/4; 1/4 ]
 
-Affine2 edtree_frechet::lteImplicitRadau3(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
-  Affine2 res3(0.0);
-  Affine2 res4(0.0);
+Affine3 edtree_frechet::lteImplicitRadau3(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
+  Affine3 res3(0.0);
+  Affine3 res4(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -2089,55 +2089,55 @@ Affine2 edtree_frechet::lteImplicitRadau3(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp8 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp8 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp6 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp6 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp9 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp9 = edfr->eval_frechet(1, key0, y);
 
       for (int j3 = 0; j3 < nbvar; ++j3) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j3);
-        Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp4 = edfr->eval_frechet(3, key0, y);
+        Affine3 temp4 = edfr->eval_frechet(3, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp7 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp7 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp5 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp5 = edfr->eval_frechet(1, key0, y);
 
         // Tree computation
         res1 += temp1 * temp2 * temp3 * temp4;
@@ -2161,16 +2161,16 @@ Affine2 edtree_frechet::lteImplicitRadau3(int j, Affine2Vector y) {
 // A = [ [ 1/6; -1/3; 1/6 ];   [ 1/6; 5/12; -1/12 ];   [ 1/6; 2/3; 1/6 ] ]
 // b = [ 1/6; 2/3; 1/6 ]
 
-Affine2 edtree_frechet::lteImplicitLobbato3c4(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
-  Affine2 res3(0.0);
-  Affine2 res4(0.0);
-  Affine2 res5(0.0);
-  Affine2 res6(0.0);
-  Affine2 res7(0.0);
-  Affine2 res8(0.0);
-  Affine2 res9(0.0);
+Affine3 edtree_frechet::lteImplicitLobbato3c4(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
+  Affine3 res3(0.0);
+  Affine3 res4(0.0);
+  Affine3 res5(0.0);
+  Affine3 res6(0.0);
+  Affine3 res7(0.0);
+  Affine3 res8(0.0);
+  Affine3 res9(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -2181,67 +2181,67 @@ Affine2 edtree_frechet::lteImplicitLobbato3c4(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp4 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp4 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp14 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp14 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp3 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp9 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp9 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp16 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp16 = edfr->eval_frechet(1, key0, y);
 
       for (int j3 = 0; j3 < nbvar; ++j3) {
         // Common Factor
 
         key0.clear();
         key0.push_back(j3);
-        Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+        Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
         key0.clear();
         key0.push_back(j);
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp7 = edfr->eval_frechet(3, key0, y);
+        Affine3 temp7 = edfr->eval_frechet(3, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp15 = edfr->eval_frechet(2, key0, y);
+        Affine3 temp15 = edfr->eval_frechet(2, key0, y);
 
         key0.clear();
         key0.push_back(j1);
         key0.push_back(j3);
-        Affine2 temp12 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp12 = edfr->eval_frechet(1, key0, y);
 
         key0.clear();
         key0.push_back(j2);
         key0.push_back(j3);
-        Affine2 temp10 = edfr->eval_frechet(1, key0, y);
+        Affine3 temp10 = edfr->eval_frechet(1, key0, y);
 
         for (int j4 = 0; j4 < nbvar; ++j4) {
           // Common Factor
 
           key0.clear();
           key0.push_back(j4);
-          Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+          Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
           key0.clear();
           key0.push_back(j);
@@ -2249,30 +2249,30 @@ Affine2 edtree_frechet::lteImplicitLobbato3c4(int j, Affine2Vector y) {
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp5 = edfr->eval_frechet(4, key0, y);
+          Affine3 temp5 = edfr->eval_frechet(4, key0, y);
 
           key0.clear();
           key0.push_back(j1);
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp13 = edfr->eval_frechet(3, key0, y);
+          Affine3 temp13 = edfr->eval_frechet(3, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp8 = edfr->eval_frechet(2, key0, y);
+          Affine3 temp8 = edfr->eval_frechet(2, key0, y);
 
           key0.clear();
           key0.push_back(j2);
           key0.push_back(j4);
-          Affine2 temp11 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp11 = edfr->eval_frechet(1, key0, y);
 
           key0.clear();
           key0.push_back(j3);
           key0.push_back(j4);
-          Affine2 temp6 = edfr->eval_frechet(1, key0, y);
+          Affine3 temp6 = edfr->eval_frechet(1, key0, y);
 
           // Tree computation
           res1 += temp1 * temp2 * temp3 * temp4 * temp5;
@@ -2303,9 +2303,9 @@ Affine2 edtree_frechet::lteImplicitLobbato3c4(int j, Affine2Vector y) {
 // A = [ [ 0; 0 ];   [ 1; 0 ] ]
 // b = [ 1/2; 1/2 ]
 
-Affine2 edtree_frechet::lteExplicitHeun(int j, Affine2Vector y) {
-  Affine2 res1(0.0);
-  Affine2 res2(0.0);
+Affine3 edtree_frechet::lteExplicitHeun(int j, const Affine3Vector& y) {
+  Affine3 res1(0.0);
+  Affine3 res2(0.0);
   std::vector<int> key0;
   std::vector<int> key1;
   std::vector<int> key2;
@@ -2314,30 +2314,30 @@ Affine2 edtree_frechet::lteExplicitHeun(int j, Affine2Vector y) {
 
     key0.clear();
     key0.push_back(j1);
-    Affine2 temp2 = edfr->eval_frechet(0, key0, y);
+    Affine3 temp2 = edfr->eval_frechet(0, key0, y);
 
     key0.clear();
     key0.push_back(j);
     key0.push_back(j1);
-    Affine2 temp5 = edfr->eval_frechet(1, key0, y);
+    Affine3 temp5 = edfr->eval_frechet(1, key0, y);
 
     for (int j2 = 0; j2 < nbvar; ++j2) {
       // Common Factor
 
       key0.clear();
       key0.push_back(j2);
-      Affine2 temp1 = edfr->eval_frechet(0, key0, y);
+      Affine3 temp1 = edfr->eval_frechet(0, key0, y);
 
       key0.clear();
       key0.push_back(j);
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp3 = edfr->eval_frechet(2, key0, y);
+      Affine3 temp3 = edfr->eval_frechet(2, key0, y);
 
       key0.clear();
       key0.push_back(j1);
       key0.push_back(j2);
-      Affine2 temp4 = edfr->eval_frechet(1, key0, y);
+      Affine3 temp4 = edfr->eval_frechet(1, key0, y);
 
       // Tree computation
       res1 += temp1 * temp2 * temp3;

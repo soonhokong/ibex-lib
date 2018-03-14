@@ -30,10 +30,10 @@ public:
   IntervalVector *box_jn;  // encadrement à tn
   IntervalVector *box_jnh; // encadrement à tn+h
 
-  Affine2Vector *box_err_aff;
+  Affine3Vector *box_err_aff;
 
-  Affine2Vector *box_jn_aff;
-  Affine2Vector *box_jnh_aff;
+  Affine3Vector *box_jn_aff;
+  Affine3Vector *box_jnh_aff;
 
   // accuracy expected
   double atol;
@@ -46,31 +46,31 @@ public:
 
   // few different picard operator
   // euler
-  IntervalVector picard_euler(IntervalVector y0, ivp_ode *_ode) {
+  IntervalVector picard_euler(const IntervalVector &y0, ivp_ode *_ode) {
     return *box_jn +
            Interval(0, time_j.diam()) *
-               _ode->compute_derivatives_aff(1, Affine2Vector(y0, true)).itv();
+               _ode->compute_derivatives_aff(1, Affine3Vector(y0)).itv();
   };
 
   // taylor
-  IntervalVector picard_tayl(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  IntervalVector picard_tayl(const IntervalVector &y0, ivp_ode *_ode,
+                             int ordre) {
     double h = time_j.diam();
     int n = ordre;
     int fac_i = 1;
 
-    Affine2Vector jn =
-        Affine2Vector(*box_jn, true); // restart of the affine form
-    Affine2Vector int_tayl(jn);
+    Affine3Vector jn = Affine3Vector(*box_jn); // restart of the affine form
+    Affine3Vector int_tayl(jn);
     for (int i = 1; i < n; i++) {
       fac_i = fac_i * i;
-      Affine2Vector df = _ode->compute_derivatives_aff(i, jn);
+      Affine3Vector df = _ode->compute_derivatives_aff(i, jn);
       df *= (1.0 / fac_i);
       df *= Interval(0, std::pow(h, i));
       int_tayl = int_tayl + df;
     }
 
     IntervalVector err =
-        _ode->compute_derivatives_aff(n, Affine2Vector(y0)).itv();
+        _ode->compute_derivatives_aff(n, Affine3Vector(y0)).itv();
 
     fac_i = fac_i * (n);
     err *= (1.0 / fac_i);
@@ -80,37 +80,37 @@ public:
   };
 
   // rk4
-  IntervalVector picard_rk4(IntervalVector y0, ivp_ode *_ode) {
+  IntervalVector picard_rk4(const IntervalVector &y0, ivp_ode *_ode) {
     double h = time_j.diam();
     Interval time0h = Interval(0, h);
 
-    Affine2Vector boxj1 = Affine2Vector(*box_jn, true);
+    Affine3Vector boxj1 = Affine3Vector(*box_jn);
 
-    Affine2Vector k1 = _ode->compute_derivatives_aff(1, boxj1);
+    Affine3Vector k1 = _ode->compute_derivatives_aff(1, boxj1);
 
-    Affine2Vector boxj2(k1);
+    Affine3Vector boxj2(k1);
     boxj2 *= (0.5 * time0h);
 
-    Affine2Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj2);
+    Affine3Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj2);
 
-    Affine2Vector boxj3(k2);
+    Affine3Vector boxj3(k2);
     boxj3 *= (0.5 * time0h);
 
-    Affine2Vector k3 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj3);
+    Affine3Vector k3 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj3);
 
-    Affine2Vector boxj4(k3);
+    Affine3Vector boxj4(k3);
     boxj4 *= (time0h);
 
-    Affine2Vector k4 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj4);
+    Affine3Vector k4 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj4);
 
     k2 *= (2.0);
     k3 *= (2.0);
 
-    Affine2Vector int_rk4 = k1 + k2 + k3 + k4;
+    Affine3Vector int_rk4 = k1 + k2 + k3 + k4;
     int_rk4 *= (time0h / 6.0);
     int_rk4 += *box_jn_aff;
 
-    Affine2Vector err_aff = _ode->computeRK4derivative(Affine2Vector(y0, true));
+    Affine3Vector err_aff = _ode->computeRK4derivative(Affine3Vector(y0));
     err_aff *= (pow(time0h, 5) / 120);
 
     IntervalVector err = err_aff.itv();
@@ -121,13 +121,14 @@ public:
   //******virtual methods to define to build a new solution scheme********///
 
   // the picard operator
-  virtual IntervalVector picard(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  virtual IntervalVector picard(const IntervalVector &y0, ivp_ode *_ode,
+                                int ordre) {
     return picard_tayl(y0, _ode, ordre);
   }
 
   // the LTE
-  virtual Affine2Vector LTE(IntervalVector y0, ivp_ode *_ode, double h) {
-    Affine2Vector err_aff = _ode->computeRK4derivative(Affine2Vector(y0, true));
+  virtual Affine3Vector LTE(const IntervalVector &y0, ivp_ode *_ode, double h) {
+    Affine3Vector err_aff = _ode->computeRK4derivative(Affine3Vector(y0));
     err_aff *= (std::pow(h, 5) / 120);
 
     return err_aff;
@@ -149,7 +150,7 @@ public:
 
   ///***algorithm for scheme, general for all scheme***///
   // compute j0 roughly
-  int calcul_j0(IntervalVector _box_j, ivp_ode *_ode) {
+  int calcul_j0(const IntervalVector &_box_j, ivp_ode *_ode) {
 
     int nb = 0;
     // approx of jn+h with rk4
@@ -184,7 +185,7 @@ public:
       calcul_j1(_ode);
       yn_p1 = *box_j1;
 
-      Affine2Vector err_aff = LTE(yn_p1, _ode, time_j.diam());
+      Affine3Vector err_aff = LTE(yn_p1, _ode, time_j.diam());
       IntervalVector err = err_aff.itv();
 
       double norm_err = infinite_norm(err);
@@ -246,7 +247,7 @@ public:
     return 1;
   };
 
-  double infinite_norm(const IntervalVector _vec) {
+  double infinite_norm(const IntervalVector &_vec) {
     double res = std::max(std::abs(_vec[0].lb()), std::abs(_vec[0].ub()));
     for (int i = 1; i < _vec.size(); i++) {
       res = std::max(std::abs(_vec[i].lb()), res);
@@ -265,29 +266,29 @@ public:
   };
 
   // empty constructor
-  solution_j(){};
-
-  solution_j(const Affine2Vector _box_jn, double tn, double h, double a) {
-    box_jn_aff = new Affine2Vector(_box_jn);
+  solution_j() = default;
+  
+  solution_j(const Affine3Vector &_box_jn, double tn, double h, double a) {
+    box_jn_aff = new Affine3Vector(_box_jn);
     box_jn = new IntervalVector(_box_jn.itv());
     box_j0 = new IntervalVector(*box_jn);
     box_j1 = new IntervalVector(*box_jn);
-    box_err_aff = new Affine2Vector(box_jn->size());
+    box_err_aff = new Affine3Vector(box_jn->size());
     box_jnh = new IntervalVector(*box_jn);
 
     // important:
     time_j = Interval(tn - h, tn);
-    box_jnh_aff = new Affine2Vector(_box_jn);
+    box_jnh_aff = new Affine3Vector(_box_jn);
     atol = a;
     factor = 1.0;
   }
 
   // constructor
-  solution_j(const Affine2Vector _box_jn, double tn, double h, ivp_ode *_ode,
+  solution_j(const Affine3Vector _box_jn, double tn, double h, ivp_ode *_ode,
              double a, double fac) {
     factor = fac;
     atol = a;
-    box_jn_aff = new Affine2Vector(_box_jn);
+    box_jn_aff = new Affine3Vector(_box_jn);
 
     box_jn = new IntervalVector(_box_jn.itv());
 
@@ -296,14 +297,14 @@ public:
     // compute j0 roughly
     box_j0 = new IntervalVector(box_jn->size());
     box_j1 = new IntervalVector(box_jn->size());
-    box_err_aff = new Affine2Vector(box_jn->size());
+    box_err_aff = new Affine3Vector(box_jn->size());
 
     // compute jnh*/
     box_jnh = new IntervalVector(_box_jn.size());
-    box_jnh_aff = new Affine2Vector(_box_jn.size());
+    box_jnh_aff = new Affine3Vector(_box_jn.size());
   }
 
-  int compute_oneStep(const Affine2Vector _box_jn, ivp_ode *_ode,
+  int compute_oneStep(const Affine3Vector _box_jn, ivp_ode *_ode,
                       bool monotony_active) {
 
     // compute j0 roughly
@@ -352,7 +353,7 @@ public:
     if (monotony_active) {
       /*tricks monotony*/
       IntervalVector der =
-          _ode->compute_derivatives_aff(1, Affine2Vector(*box_j1, true)).itv();
+          _ode->compute_derivatives_aff(1, Affine3Vector(*box_j1)).itv();
       if ((der.lb().min() > 0) || (der.ub().max() < 0)) {
         IntervalVector jnh_old(box_jnh_aff->itv());
         do {
@@ -384,6 +385,7 @@ public:
       // exit(EXIT_FAILURE);
       ///////////////**************//////////////
     }
+    return 0; // TODO(soonhok):correct??
   }
 
   // printer
@@ -393,27 +395,17 @@ public:
     std::cout << "affine form : " << *box_jnh_aff << std::endl;
   }
 
-  // destructor
-  ~solution_j() {}
-
   void destructor() {
-    if (box_jn_aff != NULL)
-      delete box_jn_aff;
-    if (box_jn != NULL)
-      delete box_jn;
-    if (box_j0 != NULL)
-      delete box_j0;
-    if (box_j1 != NULL)
-      delete box_j1;
-    if (box_err_aff != NULL)
-      delete box_err_aff;
-    if (box_jnh != NULL)
-      delete box_jnh;
-    if (box_jnh_aff != NULL)
-      delete box_jnh_aff;
+    delete box_jn_aff;
+    delete box_jn;
+    delete box_j0;
+    delete box_j1;
+    delete box_err_aff;
+    delete box_jnh;
+    delete box_jnh_aff;
   }
 
-  IntervalVector approx_rk4(const IntervalVector yj, double h, ivp_ode *_ode) {
+  IntervalVector approx_rk4(const IntervalVector& yj, double h, ivp_ode *_ode) {
     IntervalVector int_rk4(_ode->nbvar);
     IntervalVector boxj1(yj);
 
@@ -445,32 +437,32 @@ public:
   };
 
   // rk4 with remainder
-  Affine2Vector remainder_rk4(ivp_ode *_ode) {
+  Affine3Vector remainder_rk4(ivp_ode *_ode) {
     double h = time_j.diam();
 
-    Affine2Vector boxj1(*box_jn_aff);
+    Affine3Vector boxj1(*box_jn_aff);
 
-    Affine2Vector k1 = _ode->compute_derivatives_aff(1, boxj1);
+    Affine3Vector k1 = _ode->compute_derivatives_aff(1, boxj1);
 
-    Affine2Vector boxj2(k1);
+    Affine3Vector boxj2(k1);
     boxj2 *= (0.5 * h);
 
-    Affine2Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj2);
+    Affine3Vector k2 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj2);
 
-    Affine2Vector boxj3(k2);
+    Affine3Vector boxj3(k2);
     boxj3 *= (0.5 * h);
 
-    Affine2Vector k3 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj3);
+    Affine3Vector k3 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj3);
 
-    Affine2Vector boxj4(k3);
+    Affine3Vector boxj4(k3);
     boxj4 *= (h);
 
-    Affine2Vector k4 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj4);
+    Affine3Vector k4 = _ode->compute_derivatives_aff(1, *box_jn_aff + boxj4);
 
     k2 *= (2.0);
     k3 *= (2.0);
 
-    Affine2Vector int_rk4 = k1 + k2 + k3 + k4;
+    Affine3Vector int_rk4 = k1 + k2 + k3 + k4;
     int_rk4 *= (h / 6.0);
     int_rk4 += *box_jn_aff;
 

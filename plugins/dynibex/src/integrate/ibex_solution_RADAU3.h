@@ -26,14 +26,13 @@ class solution_j_radau3 : public solution_j {
 public:
   // method to define
 
-  IntervalVector picard(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  IntervalVector picard(const IntervalVector& y0, ivp_ode *_ode, int ordre) {
     return picard_tayl(y0, _ode, ordre);
   }
 
   // the LTE
-  Affine2Vector LTE(IntervalVector y0, ivp_ode *_ode, double h) {
-    Affine2Vector err_aff =
-        _ode->computeRADAU3derivative(Affine2Vector(y0, true));
+  Affine3Vector LTE(const IntervalVector& y0, ivp_ode *_ode, double h) {
+    Affine3Vector err_aff = _ode->computeRADAU3derivative(Affine3Vector(y0));
     err_aff *= (std::pow(h, 4) / 24);
 
     return err_aff;
@@ -52,16 +51,13 @@ public:
   };
 
   // constructor
-  solution_j_radau3(const Affine2Vector _box_jn, double tn, double h,
+  solution_j_radau3(const Affine3Vector& _box_jn, double tn, double h,
                     ivp_ode *_ode, double a, double fac)
       : solution_j(_box_jn, tn, h, _ode, a, fac) {}
 
-  // destructor
-  ~solution_j_radau3() {}
-
 private:
   // radau3 with remainder
-  Affine2Vector remainder_radau3(ivp_ode *_ode) {
+  Affine3Vector remainder_radau3(ivp_ode *_ode) {
     double h = time_j.diam();
     double tol = 1e-20; // atol*0.001;
 
@@ -83,8 +79,8 @@ private:
     } while ((k1.rel_distance(k1_old) > atol) ||
              (k2.rel_distance(k2_old) > atol));
 
-    Affine2Vector k1_aff = Affine2Vector(k1, true);
-    Affine2Vector k2_aff = Affine2Vector(k2, true);
+    Affine3Vector k1_aff = Affine3Vector(k1);
+    Affine3Vector k2_aff = Affine3Vector(k2);
 
     k1_aff = _ode->compute_derivatives_aff(
         1, *box_jn_aff + h * ((5.0 / 12.0) * k1_aff + (-1.0 / 12.0) * k2_aff));
@@ -92,7 +88,7 @@ private:
     k2_aff = _ode->compute_derivatives_aff(
         1, *box_jn_aff + h * ((3.0 / 4.0) * k1_aff + (1.0 / 4.0) * k2_aff));
 
-    Affine2Vector radau3 =
+    Affine3Vector radau3 =
         *box_jn_aff + h * ((3.0 / 4.0) * k1_aff + (1.0 / 4.0) * k2_aff);
 
     return radau3 + *box_err_aff;

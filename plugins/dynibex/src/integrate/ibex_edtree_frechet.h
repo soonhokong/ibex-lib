@@ -39,14 +39,14 @@ public:
 
   ~edtree_frechet() { delete edfr; }
 
-  Affine2 get_derivatives(int order, Affine2Vector y, int j);
-  Affine2 lteImplicitRadau3(int j, Affine2Vector y);
-  Affine2 lteExplicitRK4(int j, Affine2Vector y);
-  Affine2 lteImplicitLobbato3a4(int j, Affine2Vector y);
-  Affine2 lteImplicitEuler(int j, Affine2Vector y);
-  Affine2 lteImplicitMidpoint(int j, Affine2Vector y);
-  Affine2 lteImplicitLobbato3c4(int j, Affine2Vector y);
-  Affine2 lteExplicitHeun(int j, Affine2Vector y);
+  Affine3 get_derivatives(int order, const Affine3Vector& y, int j);
+  Affine3 lteImplicitRadau3(int j, const Affine3Vector& y);
+  Affine3 lteExplicitRK4(int j, const Affine3Vector& y);
+  Affine3 lteImplicitLobbato3a4(int j, const Affine3Vector& y);
+  Affine3 lteImplicitEuler(int j, const Affine3Vector& y);
+  Affine3 lteImplicitMidpoint(int j, const Affine3Vector& y);
+  Affine3 lteImplicitLobbato3c4(int j, const Affine3Vector& y);
+  Affine3 lteExplicitHeun(int j, const Affine3Vector& y);
 };
 
 } // namespace ibex

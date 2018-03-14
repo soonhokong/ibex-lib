@@ -16,6 +16,11 @@
 #ifndef IBEX_INTEG_H
 #define IBEX_INTEG_H
 
+namespace ibex {
+const double hmin = 1e-8;
+const double hmax = 0.9;
+} // namespace ibex
+
 #include "ibex_edfrechet.h"
 #include "ibex_edtree_frechet.h"
 #include "ibex_ivp_ode.h"
@@ -36,10 +41,5 @@
 #include "ibex_solution_TAYLOR4.h"
 #include "ibex_solution_iEULER.h"
 #include "ibex_solution_iMIDPOINT.h"
-
-namespace ibex {
-const double hmin = 1e-8;
-const double hmax = 0.9;
-}
 
 #endif

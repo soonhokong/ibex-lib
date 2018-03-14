@@ -16,6 +16,11 @@
 #ifndef IBEX_ODE_H
 #define IBEX_ODE_H
 
+#include "ibex_AffineVector.h"
+#include "ibex_Ctc3BCid.h"
+#include "ibex_CtcFixPoint.h"
+#include "ibex_CtcHC4.h"
+
 namespace ibex {
 
 const int MAX_FCT = 60;
@@ -23,22 +28,22 @@ const double tol_ctc = 1e-15;
 
 class ivp_ode {
 public:
-  ivp_ode(const Function _ydot, double _t0, const IntervalVector _yinit) {
+  ivp_ode(const Function &_ydot, double _t0, const IntervalVector &_yinit) {
     nbvar = _yinit.size();
 
     yinit = new IntervalVector(_yinit);
-    yinit_aff = new Affine2Vector(_yinit, true);
+    yinit_aff = new Affine3Vector(_yinit);
 
     ydot = new Function(_ydot);
     t0 = _t0;
     embedded_ctc = NULL;
   };
 
-  ivp_ode(const Function _ydot, double _t0, const Affine2Vector _yinit_aff) {
+  ivp_ode(const Function &_ydot, double _t0, const Affine3Vector &_yinit_aff) {
     nbvar = _yinit_aff.size();
 
     yinit = new IntervalVector(_yinit_aff.itv());
-    yinit_aff = new Affine2Vector(_yinit_aff);
+    yinit_aff = new Affine3Vector(_yinit_aff);
 
     ydot = new Function(_ydot);
     t0 = _t0;
@@ -46,12 +51,12 @@ public:
   };
 
   // with additive constraints
-  ivp_ode(const Function _ydot, double _t0, const IntervalVector _yinit,
+  ivp_ode(const Function &_ydot, double _t0, const IntervalVector &_yinit,
           const Array<NumConstraint> &csp) {
     nbvar = _yinit.size();
 
     yinit = new IntervalVector(_yinit);
-    yinit_aff = new Affine2Vector(_yinit, true);
+    yinit_aff = new Affine3Vector(_yinit);
 
     ydot = new Function(_ydot);
     t0 = _t0;
@@ -61,12 +66,12 @@ public:
     embedded_ctc = new CtcFixPoint(*cid, tol_ctc);
   };
 
-  ivp_ode(const Function _ydot, double _t0, const Affine2Vector _yinit_aff,
+  ivp_ode(const Function &_ydot, double _t0, const Affine3Vector &_yinit_aff,
           const Array<NumConstraint> &csp) {
     nbvar = _yinit_aff.size();
 
     yinit = new IntervalVector(_yinit_aff.itv());
-    yinit_aff = new Affine2Vector(_yinit_aff);
+    yinit_aff = new Affine3Vector(_yinit_aff);
 
     ydot = new Function(_ydot);
     t0 = _t0;
@@ -80,7 +85,7 @@ public:
     edtfr = new edtree_frechet(order, ydot, nbvar);
   }
 
-  IntervalVector compute_derivatives(int ordre, IntervalVector yi) {
+  IntervalVector compute_derivatives(int ordre, const IntervalVector &yi) {
     assert(ordre < MAX_FCT);
 
     if (ordre == 1) {
@@ -91,13 +96,13 @@ public:
     IntervalVector der(nbvar);
 
     for (int j = 0; j < nbvar; j++)
-      der[j] = edtfr->get_derivatives(ordre, Affine2Vector(yi, true), j).itv();
+      der[j] = edtfr->get_derivatives(ordre, Affine3Vector(yi), j).itv();
 
     return der;
   };
 
-  Affine2Vector computeRK4derivative(Affine2Vector y) {
-    Affine2Vector rk4_deriv(y.size(), 0);
+  Affine3Vector computeRK4derivative(const Affine3Vector &y) {
+    Affine3Vector rk4_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       rk4_deriv[i] = edtfr->lteExplicitRK4(i, y);
@@ -105,8 +110,8 @@ public:
     return rk4_deriv;
   }
 
-  Affine2Vector computeRADAU3derivative(Affine2Vector y) {
-    Affine2Vector radau3_deriv(y.size(), 0);
+  Affine3Vector computeRADAU3derivative(const Affine3Vector &y) {
+    Affine3Vector radau3_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       radau3_deriv[i] = edtfr->lteImplicitRadau3(i, y);
@@ -114,8 +119,8 @@ public:
     return radau3_deriv;
   }
 
-  Affine2Vector computeLC3derivative(Affine2Vector y) {
-    Affine2Vector lc3_deriv(y.size(), 0);
+  Affine3Vector computeLC3derivative(const Affine3Vector &y) {
+    Affine3Vector lc3_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       lc3_deriv[i] = edtfr->lteImplicitLobbato3c4(i, y);
@@ -123,8 +128,8 @@ public:
     return lc3_deriv;
   }
 
-  Affine2Vector computeHEUNderivative(Affine2Vector y) {
-    Affine2Vector heun_deriv(y.size(), 0);
+  Affine3Vector computeHEUNderivative(const Affine3Vector &y) {
+    Affine3Vector heun_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       heun_deriv[i] = edtfr->lteExplicitHeun(i, y);
@@ -132,8 +137,8 @@ public:
     return heun_deriv;
   }
 
-  Affine2Vector computeIEULERderivative(Affine2Vector y) {
-    Affine2Vector ieuler_deriv(y.size(), 0);
+  Affine3Vector computeIEULERderivative(const Affine3Vector &y) {
+    Affine3Vector ieuler_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       ieuler_deriv[i] = edtfr->lteImplicitEuler(i, y);
@@ -141,8 +146,8 @@ public:
     return ieuler_deriv;
   }
 
-  Affine2Vector computeIMIDPOINTderivative(Affine2Vector y) {
-    Affine2Vector imidpoint_deriv(y.size(), 0);
+  Affine3Vector computeIMIDPOINTderivative(const Affine3Vector &y) {
+    Affine3Vector imidpoint_deriv(y.size(), 0);
 
     for (int i = 0; i < y.size(); i++) {
       imidpoint_deriv[i] = edtfr->lteImplicitMidpoint(i, y);
@@ -150,8 +155,8 @@ public:
     return imidpoint_deriv;
   }
 
-  Affine2Vector computeLA3derivative_aff(Affine2Vector y) {
-    Affine2Vector la3_deriv(y.size());
+  Affine3Vector computeLA3derivative_aff(const Affine3Vector &y) {
+    Affine3Vector la3_deriv(y.size());
 
     for (int i = 0; i < y.size(); i++) {
       la3_deriv[i] = edtfr->lteImplicitLobbato3a4(i, y);
@@ -160,10 +165,10 @@ public:
   }
 
   // with complete affine form
-  Affine2Vector compute_derivatives_aff(int ordre, Affine2Vector yi) {
+  Affine3Vector compute_derivatives_aff(int ordre, const Affine3Vector &yi) {
     assert(ordre < MAX_FCT);
 
-    Affine2Vector der(nbvar);
+    Affine3Vector der(nbvar);
 
     edtfr->edfr->inc_global_step();
 
@@ -181,9 +186,8 @@ public:
     for (int i = 0; i <= ordre; i++) {
       std::cout << "eval " << i << "^th diff" << std::endl;
       for (int j = 0; j < nbvar; j++)
-        std::cout
-            << edtfr->get_derivatives(i, Affine2Vector(*yinit, true), j).itv()
-            << std::endl;
+        std::cout << edtfr->get_derivatives(i, Affine3Vector(*yinit), j).itv()
+                  << std::endl;
     }
   };
 
@@ -193,7 +197,7 @@ public:
     for (int i = 0; i <= ordre; i++) {
       std::cout << "eval " << i << "^th diff" << std::endl;
       for (int j = 0; j < nbvar; j++)
-        std::cout << edtfr->get_derivatives(i, Affine2Vector(*yinit, true), j)
+        std::cout << edtfr->get_derivatives(i, Affine3Vector(*yinit), j)
                   << std::endl;
     }
   };
@@ -203,14 +207,13 @@ public:
     delete yinit_aff;
     delete ydot;
     delete edtfr;
-    if (embedded_ctc != NULL)
-      delete embedded_ctc;
+    delete embedded_ctc;
   };
 
 public:
   int nbvar;
   Function *ydot;
-  Affine2Vector *yinit_aff;
+  Affine3Vector *yinit_aff;
   double t0;
   CtcFixPoint *embedded_ctc;
 

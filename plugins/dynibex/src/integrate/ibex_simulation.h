@@ -18,6 +18,15 @@
 #define IBEX_SIMU_H
 
 #include "ibex_integrate.h"
+#include "ibex_solution_HEUN.h"
+#include "ibex_solution_LA3.h"
+#include "ibex_solution_LC3.h"
+#include "ibex_solution_RADAU3.h"
+#include "ibex_solution_RK4.h"
+#include "ibex_solution_TAYLOR4.h"
+#include "ibex_solution_iEULER.h"
+#include "ibex_solution_iMIDPOINT.h"
+
 #include <fstream>
 #include <stdlib.h>
 
@@ -63,25 +72,17 @@ public:
   void inactive_monotony() { monotony_active = false; }
 
   // fill genericfrom whatever solution (ode or dae)
-  void sol_to_generic(std::list<solution_j> list_sol) {
-    std::list<solution_j>::iterator iterator_list;
-    for (iterator_list = list_sol.begin(); iterator_list != list_sol.end();
-         iterator_list++) {
-      solution_g sol_temp(iterator_list->time_j, iterator_list->box_j1,
-                          iterator_list->box_jn, iterator_list->box_jnh,
-                          nb_var);
-      list_solution_g.push_back(sol_temp);
+  void sol_to_generic(const std::list<solution_j> &list_sol) {
+    for (const auto &item : list_sol) {
+      list_solution_g.emplace_back(item.time_j, item.box_j1, item.box_jn,
+                                   item.box_jnh, nb_var);
     }
   }
 
-  void sol_to_generic(std::list<solution_j_dae> list_sol) {
-    std::list<solution_j_dae>::iterator iterator_list;
-    for (iterator_list = list_sol.begin(); iterator_list != list_sol.end();
-         iterator_list++) {
-      solution_g sol_temp(iterator_list->time_j, iterator_list->box_j1,
-                          iterator_list->box_jn, iterator_list->box_jnh,
-                          nb_var);
-      list_solution_g.push_back(sol_temp);
+  void sol_to_generic(const std::list<solution_j_dae> &list_sol) {
+    for (const auto &item : list_sol) {
+      list_solution_g.emplace_back(item.time_j, item.box_j1, item.box_jn,
+                                   item.box_jnh, nb_var);
     }
   }
 
@@ -219,11 +220,9 @@ public:
         tn = sol_temp_dae.time_j.ub();
 
     } while (tn < time_T);
-    ///////////////**************//////////////
-    if (tn > 1e7)
+    if (tn > 1e7) {
       tn = time_T;
-    ///////////////**************//////////////
-    else {
+    } else {
       if (!list_solution_j.empty()) {
         // print of the last solution
         solution_j sol_temp = list_solution_j.back();
@@ -259,7 +258,8 @@ public:
 
   // find the box of a stack which contains a sub-box (stack size nbvar/2, y
   // size nbvar)
-  IntervalVector find_box(std::list<IntervalVector> *stack, IntervalVector y) {
+  IntervalVector find_box(std::list<IntervalVector> *stack,
+                          const IntervalVector &y) {
 
     std::list<IntervalVector>::iterator iterator_list;
 
@@ -487,26 +487,14 @@ public:
   }
 
   void destructor() {
-    if (!list_solution_j_dae.empty()) {
-      std::list<solution_j_dae>::iterator iterator_list;
-      for (iterator_list = list_solution_j_dae.begin();
-           iterator_list != list_solution_j_dae.end(); iterator_list++) {
-        iterator_list->destructor();
-      }
+    for (auto &item : list_solution_j_dae) {
+      item.destructor();
     }
-    if (!list_solution_j.empty()) {
-      std::list<solution_j>::iterator iterator_list;
-      for (iterator_list = list_solution_j.begin();
-           iterator_list != list_solution_j.end(); iterator_list++) {
-        iterator_list->destructor();
-      }
+    for (auto &item : list_solution_j) {
+      item.destructor();
     }
-    if (!list_solution_g.empty()) {
-      std::list<solution_g>::iterator iterator_list;
-      for (iterator_list = list_solution_g.begin();
-           iterator_list != list_solution_g.end(); iterator_list++) {
-        iterator_list->destructor();
-      }
+    for (auto &item : list_solution_g) {
+      item.destructor();
     }
   }
 
@@ -517,7 +505,7 @@ public:
   }
 
   // final solution is include in a box
-  bool finished_in(IntervalVector y_final) {
+  bool finished_in(const IntervalVector &y_final) {
     if (y_final.size() != nb_var)
       return false;
 
@@ -540,7 +528,7 @@ public:
   }
 
   // tube crosses a box
-  bool has_crossed(IntervalVector y) {
+  bool has_crossed(const IntervalVector &y) {
     if (y.size() != nb_var)
       return false;
 
@@ -552,12 +540,12 @@ public:
         if (!((y_temp & y).is_empty()))
           return true;
       }
-    } else
-      return false;
+    }
+    return false;
   }
 
   // tube stays in a box
-  bool stayed_in(IntervalVector y_hull) {
+  bool stayed_in(const IntervalVector &y_hull) {
     if (y_hull.size() != nb_var)
       return false;
 
@@ -574,7 +562,7 @@ public:
   }
 
   // at least one y(t) outside a box
-  bool go_out(IntervalVector y_hull) {
+  bool go_out(const IntervalVector &y_hull) {
     if (y_hull.size() != nb_var)
       return false;
 
@@ -591,7 +579,7 @@ public:
   }
 
   // tube stays in a box till t
-  bool stayed_in_till(IntervalVector y_hull, double t) {
+  bool stayed_in_till(const IntervalVector &y_hull, double t) {
     if (y_hull.size() != nb_var)
       return false;
 
@@ -613,7 +601,7 @@ public:
   }
 
   // final solution crosses a box
-  bool has_reached(IntervalVector y_final) {
+  bool has_reached(const IntervalVector &y_final) {
     if (y_final.size() != nb_var)
       return false;
 
@@ -679,8 +667,8 @@ public:
       for (iterator_list = list_solution_g.begin();
            iterator_list != list_solution_g.end(); iterator_list++) {
         if ((iterator_list->time_j).contains(t)) {
-          Affine2Vector *it_box_jn_aff =
-              new Affine2Vector(*iterator_list->box_jn, true);
+          Affine3Vector *it_box_jn_aff =
+              new Affine3Vector(*iterator_list->box_jn);
           double it_tn = iterator_list->time_j.lb();
           double it_h = t - it_tn;
 

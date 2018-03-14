@@ -26,15 +26,14 @@ class solution_j_imidpoint : public solution_j {
 public:
   // method to define
 
-  IntervalVector picard(IntervalVector y0, ivp_ode *_ode, int ordre) {
+  IntervalVector picard(const IntervalVector& y0, ivp_ode *_ode, int ordre) {
     return picard_tayl(y0, _ode, ordre);
   }
 
   // the LTE
-  Affine2Vector LTE(IntervalVector y0, ivp_ode *_ode, double h) {
+  Affine3Vector LTE(const IntervalVector& y0, ivp_ode *_ode, double h) {
     // computation of the ieuler error
-    Affine2Vector err_aff =
-        _ode->computeIMIDPOINTderivative(Affine2Vector(y0, true));
+    Affine3Vector err_aff = _ode->computeIMIDPOINTderivative(Affine3Vector(y0));
     err_aff *= (std::pow(h, 3) / 6);
 
     return err_aff;
@@ -53,7 +52,7 @@ public:
   };
 
   // constructor
-  solution_j_imidpoint(const Affine2Vector _box_jn, double tn, double h,
+  solution_j_imidpoint(const Affine3Vector& _box_jn, double tn, double h,
                        ivp_ode *_ode, double a, double fac)
       : solution_j(_box_jn, tn, h, _ode, a, fac) {}
 
@@ -62,7 +61,7 @@ public:
 
 private:
   // imidpoint with remainder
-  Affine2Vector remainder_imidpoint(ivp_ode *_ode) {
+  Affine3Vector remainder_imidpoint(ivp_ode *_ode) {
     double h = time_j.diam();
     double tol = atol * 0.001;
     IntervalVector k1 = _ode->compute_derivatives(1, *box_j1);
@@ -75,11 +74,11 @@ private:
 
     } while (k1.rel_distance(k1_old) > tol);
 
-    Affine2Vector k1_aff = Affine2Vector(k1, true);
+    Affine3Vector k1_aff = Affine3Vector(k1);
 
     k1_aff = _ode->compute_derivatives_aff(1, *box_jn_aff + 0.5 * h * k1_aff);
 
-    Affine2Vector ieuler = *box_jn_aff + h * k1_aff;
+    Affine3Vector ieuler = *box_jn_aff + h * k1_aff;
 
     return ieuler + *box_err_aff;
   };
