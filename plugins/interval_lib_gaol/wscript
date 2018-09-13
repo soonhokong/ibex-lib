@@ -117,7 +117,7 @@ def configure (conf):
 		conf.env.append_unique ("LIBPATH_IBEX_DEPS", gaol_lib)
 	else:
 		conf.msg ("Using library gaol from", "3rd/ subdirectory")
-		gaol_archive = "gaol-4.2.0.tar.gz"
+		gaol_archive = "gaol-4.2.1.tar.gz"
 		if Utils.is_win32:
 			args = "--with-mathlib-include=%s" % ibexutils.convert_path_win2msys (mathlib_include)
 			args += " --with-mathlib-lib=%s" % ibexutils.convert_path_win2msys (mathlib_lib)
