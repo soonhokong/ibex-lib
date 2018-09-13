@@ -293,11 +293,11 @@ inline Interval exp(const Interval& x) {
 }
 
 inline Interval log(const Interval& x) {
-	if (x.ub()<=0) // gaol returns (-oo,-DBL_MAX) if x.ub()==0, instead of EMPTY_SET
+	if (x.ub()<0) // gaol returns (-oo,-DBL_MAX) if x.ub()==0, instead of EMPTY_SET
 		return Interval::EMPTY_SET;
 	else {
-		Interval res=gaol::log(x.itv);
-		return res;
+                Interval res=gaol::log(x.itv);
+                return res;
 	}
 }
 
