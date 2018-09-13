@@ -264,7 +264,7 @@ inline Interval pow(const Interval &x, double d) {
 	if(d==NEG_INFINITY || d==POS_INFINITY)
 		return Interval::EMPTY_SET;
 	else
-		return gaol::pow(x.itv, d);
+                return gaol::pow(x.itv, gaol::interval(d, d));
 }
 
 inline Interval pow(const Interval &x, const Interval &y) {
