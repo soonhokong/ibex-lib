@@ -131,7 +131,6 @@ inline double Interval::ub() const {
 
 inline double Interval::mid() const {
 	double m=itv.midpoint();
-	fpu_round_up();
 	return m;
 }
 
@@ -150,7 +149,6 @@ inline bool Interval::is_unbounded() const {
 
 inline double Interval::diam() const {
 	double d=itv.width();
-	fpu_round_up();
 	return d;
 }
 
@@ -255,7 +253,6 @@ inline Interval sqr(const Interval& x) {
 
 inline Interval sqrt(const Interval& x) {
 	Interval res=gaol::sqrt(x.itv);
-	fpu_round_up();
 	return res;
 }
 
@@ -287,13 +284,11 @@ inline Interval root(const Interval& x, int n) {
 
 	if (n<0) res = 1.0/res;
 
-	fpu_round_up();
 	return res;
 }
 
 inline Interval exp(const Interval& x) {
 	Interval res = gaol::exp(x.itv);
-	fpu_round_up();
 	return res;
 }
 
@@ -302,20 +297,17 @@ inline Interval log(const Interval& x) {
 		return Interval::EMPTY_SET;
 	else {
 		Interval res=gaol::log(x.itv);
-		fpu_round_up();
 		return res;
 	}
 }
 
 inline Interval cos(const Interval& x) {
 	Interval res = gaol::cos(x.itv);
-	fpu_round_up();
 	return res;
 }
 
 inline Interval sin(const Interval& x) {
 	Interval res = gaol::sin(x.itv);
-	fpu_round_up();
 	return res;
 }
 
@@ -341,19 +333,16 @@ inline Interval cosh(const Interval& x) {
 		res=Interval(gaol::cosh(x.itv).left(),POS_INFINITY);
 	else
 		res=gaol::cosh(x.itv);
-	fpu_round_up();
 	return res;
 }
 
 inline Interval sinh(const Interval& x) {
 	Interval res = gaol::sinh(x.itv);
-	fpu_round_up();
 	return res;
 }
 
 inline Interval tanh(const Interval& x) {
 	Interval res = gaol::tanh(x.itv);
-	fpu_round_up();
 	return res;
 }
 
@@ -435,7 +424,6 @@ inline bool bwd_pow(const Interval& , Interval& , Interval& ) {
 
 inline bool bwd_cos(const Interval& y,  Interval& x) {
 	x &= gaol::acos_rel(y.itv,x.itv);
-	fpu_round_up();
 	return !x.is_empty();
 }
 
