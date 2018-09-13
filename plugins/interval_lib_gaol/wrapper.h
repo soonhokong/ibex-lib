@@ -30,6 +30,8 @@ inline double next_float(double x) {
 //	round_zero();
 //}
 
+inline Interval::Interval(const std::string& s) : itv(s.c_str()) { }
+
 inline Interval::Interval(const gaol::interval& x) : itv(x) {
 
 }
