@@ -1,5 +1,5 @@
---- gaol-4.2.0/Makefile.in	2016-12-01 14:13:36.915562360 +0100
-+++ gaol-4.2.0/Makefile.in	2016-12-01 14:13:45.355870019 +0100
+--- gaol-4.2.1/Makefile.in	2016-12-01 14:13:36.915562360 +0100
++++ gaol-4.2.1/Makefile.in	2016-12-01 14:13:45.355870019 +0100
 @@ -353,8 +353,8 @@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
@@ -11,8 +11,8 @@
  ACLOCAL_AMFLAGS = -I m4
  
  # Requires automake 1.4
---- gaol-4.2.0/gdtoa/gdtoa.h	2016-11-02 17:41:31.922173915 +0100
-+++ gaol-4.2.0/gdtoa/gdtoa.h	2016-11-02 17:42:24.568240369 +0100
+--- gaol-4.2.1/gdtoa/gdtoa.h	2016-11-02 17:41:31.922173915 +0100
++++ gaol-4.2.1/gdtoa/gdtoa.h	2016-11-02 17:42:24.568240369 +0100
 @@ -117,7 +117,7 @@
  extern char* gdtoa ANSI((FPI *fpi, int be, ULong *bits, int *kindp,
  			int mode, int ndigits, int *decpt, char **rve));
@@ -22,8 +22,8 @@
  extern float  strtof ANSI((CONST char *, char **)) __GAOL_THROW();
  extern double strtod ANSI((CONST char *, char **)) __GAOL_THROW();
  #endif // IX86_MACOSX
---- gaol-4.2.0/gaol/gaol_version.h	2016-11-02 17:52:49.176757087 +0100
-+++ gaol-4.2.0/gaol/gaol_version.h	2016-11-02 17:53:04.505358760 +0100
+--- gaol-4.2.1/gaol/gaol_version.h	2016-11-02 17:52:49.176757087 +0100
++++ gaol-4.2.1/gaol/gaol_version.h	2016-11-02 17:53:04.505358760 +0100
 @@ -33,11 +33,7 @@
  
  #if defined (_MSC_VER)
@@ -37,8 +37,8 @@
  # include "gaol/gaol_configuration.h"
  #endif
  
---- gaol-4.2.0/gaol/gaol_config.h	2016-11-02 17:52:49.176757087 +0100
-+++ gaol-4.2.0/gaol/gaol_config.h	2016-11-02 17:53:04.505358760 +0100
+--- gaol-4.2.1/gaol/gaol_config.h	2016-11-02 17:52:49.176757087 +0100
++++ gaol-4.2.1/gaol/gaol_config.h	2016-11-02 17:53:04.505358760 +0100
 @@ -48,22 +48,7 @@
  # define INLINE inline
  # include "gaol/gaol_config_msvc.h"
@@ -80,8 +80,8 @@
  #endif
  
  #endif /* __gaol_config_h__ */
---- gaol-4.2.0/check/reverse_mappings.cpp	2016-12-01 13:51:39.479201019 +0100
-+++ gaol-4.2.0/check/reverse_mappings.cpp	2016-12-01 13:51:14.342263016 +0100
+--- gaol-4.2.1/check/reverse_mappings.cpp	2016-12-01 13:51:39.479201019 +0100
++++ gaol-4.2.1/check/reverse_mappings.cpp	2016-12-01 13:51:14.342263016 +0100
 @@ -7,6 +7,11 @@
   */
  #define RAND_INIT_PID 1
@@ -94,8 +94,8 @@
  using std::cout;
  using std::endl;
  
---- gaol-4.2.0/check/performance_test_set.cpp	2016-12-01 13:52:56.294060677 +0100
-+++ gaol-4.2.0/check/performance_test_set.cpp	2016-12-01 13:53:11.882639855 +0100
+--- gaol-4.2.1/check/performance_test_set.cpp	2016-12-01 13:52:56.294060677 +0100
++++ gaol-4.2.1/check/performance_test_set.cpp	2016-12-01 13:53:11.882639855 +0100
 @@ -31,6 +31,10 @@
  #include "performance_test_set.h"
  #include "../gaol/gaol.h"
@@ -107,8 +107,8 @@
  using namespace std;
  using namespace gaol;
  
---- gaol-4.2.0/check/performances.cpp	2016-12-01 14:01:19.084604113 +0100
-+++ gaol-4.2.0/check/performances.cpp	2016-12-01 14:01:40.221379179 +0100
+--- gaol-4.2.1/check/performances.cpp	2016-12-01 14:01:19.084604113 +0100
++++ gaol-4.2.1/check/performances.cpp	2016-12-01 14:01:40.221379179 +0100
 @@ -38,6 +38,9 @@
  // Maximum bound on exponent used for pow
  #define EXP_BOUND 10

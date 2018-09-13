@@ -1,5 +1,5 @@
---- gaol-4.2.0/gaol/gaol_port.h	2016-07-28 13:51:17.602655218 +0200
-+++ gaol-4.2.0/gaol/gaol_port.h	2016-07-29 10:22:36.200271112 +0200
+--- gaol-4.2.1/gaol/gaol_port.h	2016-07-28 13:51:17.602655218 +0200
++++ gaol-4.2.1/gaol/gaol_port.h	2016-07-29 10:22:36.200271112 +0200
 @@ -37,9 +37,7 @@
  #include "gaol/gaol_config.h"
  #include "gaol/gaol_limits.h"
