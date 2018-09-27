@@ -378,3 +378,43 @@ index eac51d3..6a7bfed 100755
  		}
  
  		return interval<double,K,E>(rinf,rsup);
+diff --git a/filibsrc-3.0.2.2/ieee/primitive.hpp b/filibsrc-3.0.2.2/ieee/primitive.hpp
+index 2972796..bd3bacc 100644
+--- a/filibsrc-3.0.2.2/ieee/primitive.hpp
++++ b/filibsrc-3.0.2.2/ieee/primitive.hpp
+@@ -139,7 +139,7 @@ namespace filib
+ 	{
+ 		public:
+ 		
+-		static inline double const & MIN()
++		static inline double const & MIN_VALUE()
+ 		{
+ 			return min;
+ 		}
+@@ -149,7 +149,7 @@ namespace filib
+ 			return minNorm;
+ 		}
+   
+-		static inline double const & MAX()
++		static inline double const & MAX_VALUE()
+ 		{
+ 			return max;
+ 		}
+@@ -541,7 +541,7 @@ namespace filib
+ 					 * special case: positive infinity
+ 					 **/
+ 					if (f.ieee.expo == 2047)
+-						return MAX();
++						return MAX_VALUE();
+ 					/**
+ 					 * special case 2: positive powers of 2
+ 					 **/
+@@ -575,7 +575,7 @@ namespace filib
+ 					 * special case: negative infinity
+ 					 **/
+ 					if (f.ieee.expo == 2047)
+-						return -MAX();
++						return -MAX_VALUE();
+ 					/**
+ 					 * special case: positive powers of 2
+ 					 **/
