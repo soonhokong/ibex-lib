@@ -25,20 +25,7 @@
 #include <stdlib.h>
 #include <list>
 
-#ifdef __GNUC__
-#include <ciso646> // just to initialize _LIBCPP_VERSION
-#ifdef _LIBCPP_VERSION
 #include <unordered_map>
-#else
-#include <tr1/unordered_map>
-#endif
-#else
-#if (_MSC_VER >= 1600)
-#include <unordered_map>
-#else
-#include <unordered_map>
-#endif // (_MSC_VER >= 1600)
-#endif
 
 namespace ibex {
 
@@ -96,19 +83,7 @@ public:
 private:
 	std::list<Object*> objs;
 
-#ifdef __GNUC__
-#ifdef _LIBCPP_VERSION
-std::unordered_map<int, void*> tags;
-#else
-std::tr1::unordered_map<int, void*> tags;
-#endif
-#else
-#if (_MSC_VER >= 1600)
-std::unordered_map<int, void*> tags;
-#else
-std::tr1::unordered_map<int, void*> tags;
-#endif // (_MSC_VER >= 1600)
-#endif
+	std::unordered_map<int, void*> tags;
 };
 
 /*============================================ inline implementation ============================================ */
