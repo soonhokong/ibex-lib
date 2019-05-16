@@ -32,7 +32,7 @@ int get_original_nb_var(const System& sys) {
 }
 
 Map<long,false>& BxpLinearRelaxArgMin::ids() {
-	static Map<long,false> _ids;
+	thread_local Map<long,false> _ids;
 	return _ids;
 }
 
