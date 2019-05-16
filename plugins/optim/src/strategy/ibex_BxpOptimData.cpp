@@ -13,7 +13,7 @@
 namespace ibex {
 
 Map<long,false>& BxpOptimData::ids() {
-	static Map<long,false> _ids;
+	thread_local Map<long,false> _ids;
 	return _ids;
 }
 

@@ -226,7 +226,7 @@ namespace {
 class VariablesSingleton{
 public:
   static NodeMap<const Variable*>& getInstance(){
-    static NodeMap<const Variable*> instance;
+    thread_local NodeMap<const Variable*> instance;
     return instance;
   }
 private:

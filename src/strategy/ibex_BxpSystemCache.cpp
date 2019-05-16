@@ -18,7 +18,7 @@ using namespace std;
 namespace ibex {
 
 Map<long,false>& BxpSystemCache::ids() {
-	static Map<long,false> _ids;
+	thread_local Map<long,false> _ids;
 	return _ids;
 }
 
