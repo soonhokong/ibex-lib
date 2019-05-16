@@ -12,24 +12,8 @@
 
 #include "ibex_Exception.h"
 
-#ifdef __GNUC__
-#include <ciso646> // just to initialize _LIBCPP_VERSION
-#ifdef _LIBCPP_VERSION
 #include <unordered_map>
 #define __ibex_map__(T) std::unordered_map<long, T>
-#else
-#include <tr1/unordered_map>
-#define __ibex_map__(T) std::tr1::unordered_map<long, T>
-#endif
-#else
-#if (_MSC_VER >= 1600)
-#include <unordered_map>
-#define __ibex_map__(T) std::unordered_map<long, T>
-#else
-#include <unordered_map>
-#define __ibex_map__(T) std::tr1::unordered_map<long, T>
-#endif // (_MSC_VER >= 1600)
-#endif
 
 #include <utility>
 #include <stdlib.h>
