@@ -846,8 +846,7 @@ inline IntervalVector::~IntervalVector() {
 }
 
 inline void IntervalVector::set_empty() {
-	for (int i=0; i<size(); i++)
-		(*this)[i]=Interval::empty_set();
+        (*this)[0] = Interval::empty_set();
 }
 
 inline const Interval& IntervalVector::operator[](int i) const {
