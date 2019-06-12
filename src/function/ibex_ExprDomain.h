@@ -199,6 +199,10 @@ inline void ExprTemplateDomain<D>::read_arg_domains(typename D::VECTOR& box) con
 		for (std::vector<int>::const_iterator  j=ExprData<TemplateDomain<D> >::f.used_vars.begin();
 				j!=ExprData<TemplateDomain<D> >::f.used_vars.end(); ++j) {
 			box[*j]=ExprData<TemplateDomain<D> >::args[*j].i();
+                        if (box[*j].is_empty()) {
+                          box[0].set_empty();
+                          break;
+                        }
 		}
 	}
 	else {
