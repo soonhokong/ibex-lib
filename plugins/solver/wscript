@@ -30,10 +30,10 @@ def configure (conf):
 	#if conf.env.LP_LIB == "NONE":
 	#	conf.fatal ("solver plugin needs a LP library")
 
-	# We need -std=c++11 to compile ibexsolver
-	conf.check_cxx(cxxflags = "-std=c++11", uselib_store="IBEXSOLVER")
+	# We need -std=c++17 to compile ibexsolver
+	conf.check_cxx(cxxflags = "-std=c++17", uselib_store="IBEXSOLVER")
 
-	# To fix Windows compilation problem (strdup with std=c++11, see issue #287)
+	# To fix Windows compilation problem (strdup with std=c++17, see issue #287)
 	conf.check_cxx(cxxflags = "-U__STRICT_ANSI__", uselib_store="IBEXSOLVER")
 
 	# Add information in ibex_Setting

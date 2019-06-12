@@ -152,7 +152,7 @@ def utest (tst):
                             "use": ["TESTS", "CPPUNIT", "utest_base"],
                             "defines": defines}
 
-        tst.check_cxx(cxxflags="-std=c++11", use="TESTS", mandatory=False, uselib_store="TESTS")
+        tst.check_cxx(cxxflags="-std=c++17", use="TESTS", mandatory=False, uselib_store="TESTS")
 
 
         if tst.env.DEBUG:
