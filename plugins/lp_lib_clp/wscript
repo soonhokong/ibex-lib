@@ -40,6 +40,10 @@ def configure (conf):
     clp_kwargs = { "package": "clp", "args": "--cflags --libs",
             "uselib_store": "LP_LIB" }
 
+    # In macOS, use /usr/local/bin/pkg-config.
+    if platform.system() == 'Darwin':
+        clp_kwargs["path"] = ["/usr/local/bin/pkg-config"]
+
     env_env_bak = conf.env.env
 
     from_3rd = False # boolean, does clp comes from 3rd subdirectory
