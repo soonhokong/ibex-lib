@@ -123,7 +123,7 @@ void SystemFactory::add_ctr(const ExprCtr& ctr) {
 
 	Array<const ExprSymbol> ctr_args(input_args.size());
 	varcopy(input_args,ctr_args);
-	const ExprNode& ctr_expr=ExprCopy().copy(input_args, ctr_args, ctr.e).simplify();
+        const ExprNode& ctr_expr=ExprCopy().copy(input_args, ctr_args, ctr.e);
 
 	ctrs.push_back(new NumConstraint(*new Function(ctr_args, ctr_expr), ctr.op, true));
 
@@ -222,7 +222,7 @@ void System::init_f_ctrs(const std::vector<const ExprNode*>& fac_f_ctrs) {
 	}
 	assert(i==total_output_size);
 
-	f_ctrs.init(args, total_output_size>1? ExprVector::new_col(image).simplify() : image[0].simplify());
+	f_ctrs.init(args, total_output_size>1? ExprVector::new_col(image) : image[0]);
 }
 
 
