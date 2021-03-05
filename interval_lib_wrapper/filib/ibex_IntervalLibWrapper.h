@@ -9,7 +9,7 @@
 /* simplify instantiation */
 #define FI_BASE double
 #define FI_ROUNDING filib::native_switched
-#define FI_MODE filib::i_mode_extended_flag
+#define FI_MODE filib::i_mode_extended
 /** \\brief IBEX_NAN: <double> representation of NaN */
 #define IBEX_NAN filib::primitive::compose(0,0x7FF,1 << 19,0)
 

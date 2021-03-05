@@ -46,10 +46,17 @@ IntervalVector::IntervalVector(int n1, double bounds[][2]) : n(n1), vec(new Inte
 			vec[i]=Interval(bounds[i][0],bounds[i][1]);
 }
 
+
 IntervalVector::IntervalVector(std::initializer_list<Interval> list) : n(list.size()), vec(new Interval[n]) {
 	assert(n >= 1);
 	std::copy(list.begin(), list.end(), vec);
 }
+
+#if defined __cplusplus && __cplusplus >= 201103L
+IntervalVector::IntervalVector(IntervalVector&& x) noexcept : n(x.n), vec(x.vec) {
+        x.vec = nullptr;
+}
+#endif
 
 IntervalVector::IntervalVector(const Vector& x) : n(x.size()), vec(new Interval[n]) {
 	for (int i=0; i<n; i++) vec[i]=x[i];
@@ -345,6 +352,12 @@ IntervalVector  IntervalVector::subvector(int start_index, int end_index) const 
 void            IntervalVector::put(int start_index, const IntervalVector& x)     { _put(*this, start_index, x); }
 IntervalVector& IntervalVector::operator=(const IntervalVector& x)                { resize(x.size()); // see issue #10
                                                                                     return _assignV(*this,x); }
+// #if defined __cplusplus && __cplusplus >= 201103L
+// IntervalVector& IntervalVector::operator=(IntervalVector&& x) noexcept            { n = x.n;
+//                                                                                     vec = x.vec;
+//                                                                                     x.vec = nullptr;
+//                                                                                     return *this; }
+// #endif
 bool            IntervalVector::operator==(const IntervalVector& x) const         { return _equalsV(*this,x); }
 Vector          IntervalVector::lb() const                                        { return _lb(*this); }
 Vector          IntervalVector::ub() const                                        { return _ub(*this); }
