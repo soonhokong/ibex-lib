@@ -351,7 +351,7 @@ ofstream* CovManifold::write(const char* filename, const CovManifold& cov, std::
 	write_pos_int(*f, cov.nb_ineq());
 
 	switch(cov.boundary_type()) {
-	case INNER_PT  : write_pos_int(*f, 0); break;
+	case EQU_ONLY  : write_pos_int(*f, 0); break;
 	case FULL_RANK : write_pos_int(*f, 1); break;
 	case HALF_BALL : write_pos_int(*f, 2); break;
 	default        : assert(false);
