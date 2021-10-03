@@ -54,7 +54,7 @@ DefaultOptimizerConfig::DefaultOptimizerConfig(const System& sys) : sys(sys), kk
 // note:deprecated.
 DefaultOptimizerConfig::DefaultOptimizerConfig(const System& sys, double rel_eps_f, double abs_eps_f,
 							double eps_h, bool rigor, bool inHC4, bool kkt,
-							double random_seed, double eps_x) : sys(sys) {
+                                               double random_seed, double eps_x) : sys(sys), rigor{rigor}, inHC4{inHC4}, kkt{kkt} {
 
 	set_rel_eps_f(rel_eps_f);
 	set_abs_eps_f(abs_eps_f);
