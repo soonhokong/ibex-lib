@@ -54,6 +54,12 @@ IntervalVector::IntervalVector(const Interval& x) : n(1), vec(new Interval[1]) {
 	vec[0]=x;
 }
 
+#if defined __cplusplus && __cplusplus >= 201103L
+IntervalVector::IntervalVector(IntervalVector&& x) noexcept : n(x.n), vec(x.vec) {
+        x.vec = nullptr;
+}
+#endif
+
 void IntervalVector::init(const Interval& x) {
 	for (int i=0; i<size(); i++)
 		(*this)[i]=x;

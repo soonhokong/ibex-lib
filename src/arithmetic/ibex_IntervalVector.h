@@ -101,6 +101,13 @@ public:
 	 */
 	IntervalVector(const Interval& x);
 
+#if defined __cplusplus && __cplusplus >= 201103L
+        /**
+         * \brief Move constructor
+         */
+        IntervalVector(IntervalVector&& x) noexcept;
+#endif
+
 	/**
 	 * \brief Create [empty; ...; empty]
 	 *
