@@ -40,9 +40,12 @@ def configure (conf):
     clp_kwargs = { "package": "clp", "args": "--cflags --libs",
             "uselib_store": "LP_LIB" }
 
-    # In macOS, use /usr/local/bin/pkg-config.
+    # In macOS, find pkg-config.
     if platform.system() == 'Darwin':
-        clp_kwargs["path"] = ["/usr/local/bin/pkg-config"]
+        conf.find_program ("pkg-config",
+                           var = "PKGCONFIG",
+                           path_list = ["/usr/local/bin", "/opt/homebrew/bin/"])
+        clp_kwargs["path"] = conf.env["PKGCONFIG"]
 
     env_env_bak = conf.env.env
 
